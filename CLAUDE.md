@@ -157,3 +157,27 @@ This project uses [taste-skill](https://github.com/Leonxlnx/taste-skill) design 
 | industrial-brutalist-ui | `.agents/skills/industrial-brutalist-ui/SKILL.md` | Experimental/sharp |
 | full-output-enforcement | `.agents/skills/full-output-enforcement/SKILL.md` | Full output, no placeholders |
 <!-- /taste-skill -->
+
+<!-- markdown-viewer -->
+# Markdown Viewer - Diagram & Visualization Skills
+
+This project uses [markdown-viewer](https://github.com/markdown-viewer/skills) skills for generating diagrams and visualizations from markdown.
+
+| Skill | File | Use Case |
+|-------|------|----------|
+| architecture | `.agents/skills/architecture/SKILL.md` | Layered system architecture diagrams, tech stacks, microservices topology |
+| uml | `.agents/skills/uml/SKILL.md` | UML diagrams via PlantUML (class, sequence, activity, state machine) |
+| infographic | `.agents/skills/infographic/SKILL.md` | KPI dashboards, timelines, roadmaps, SWOT analysis, funnels |
+| graphviz | `.agents/skills/graphviz/SKILL.md` | DOT graphs - dependency trees, call graphs, package hierarchies |
+| canvas | `.agents/skills/canvas/SKILL.md` | Spatial diagrams with x/y coordinate control, concept maps |
+| network | `.agents/skills/network/SKILL.md` | Network topology diagrams with device icons (Cisco etc.) |
+| mindmap | `.agents/skills/mindmap/SKILL.md` | Hierarchical mind maps, brainstorming, topic decomposition |
+| archimate | `.agents/skills/archimate/SKILL.md` | ArchiMate enterprise architecture diagrams |
+| bpmn | `.agents/skills/bpmn/SKILL.md` | Business process diagrams |
+| cloud | `.agents/skills/cloud/SKILL.md` | Cloud architecture diagrams |
+| data-analytics | `.agents/skills/data-analytics/SKILL.md` | Data analytics visualizations |
+| infocard | `.agents/skills/infocard/SKILL.md` | Information cards |
+| iot | `.agents/skills/iot/SKILL.md` | IoT architecture diagrams |
+| security | `.agents/skills/security/SKILL.md` | Security architecture diagrams |
+| vega | `.agents/skills/vega/SKILL.md` | Vega visualization grammar |
+<!-- /markdown-viewer -->
