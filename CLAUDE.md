@@ -136,3 +136,24 @@ rtk init --global       # Add RTK to ~/.claude/CLAUDE.md
 
 Overall average: **60-90% token reduction** on common development operations.
 <!-- /rtk-instructions -->
+
+<!-- taste-skill -->
+# Design Taste - Premium Frontend Guidelines
+
+This project uses [taste-skill](https://github.com/Leonxlnx/taste-skill) design rules to ensure high-quality UI output. The active skill file is at `.agents/skills/design-taste-frontend/SKILL.md`.
+
+## Active Baseline
+- DESIGN_VARIANCE: 8 (1=Symmetry, 10=Chaos)
+- MOTION_INTENSITY: 6 (1=Static, 10=Cinematic)
+- VISUAL_DENSITY: 4 (1=Airy, 10=Dense)
+
+## Available Skill Variants
+| Skill | File | Use Case |
+|-------|------|----------|
+| design-taste-frontend | `.agents/skills/design-taste-frontend/SKILL.md` | Default all-rounder |
+| high-end-visual-design | `.agents/skills/high-end-visual-design/SKILL.md` | Polished, calm, premium |
+| minimalist-ui | `.agents/skills/minimalist-ui/SKILL.md` | Editorial/clean (Notion/Linear vibes) |
+| redesign-existing-projects | `.agents/skills/redesign-existing-projects/SKILL.md` | Audit & improve existing UI |
+| industrial-brutalist-ui | `.agents/skills/industrial-brutalist-ui/SKILL.md` | Experimental/sharp |
+| full-output-enforcement | `.agents/skills/full-output-enforcement/SKILL.md` | Full output, no placeholders |
+<!-- /taste-skill -->
