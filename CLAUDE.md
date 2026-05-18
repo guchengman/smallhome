@@ -181,3 +181,15 @@ This project uses [markdown-viewer](https://github.com/markdown-viewer/skills) s
 | security | `.agents/skills/security/SKILL.md` | Security architecture diagrams |
 | vega | `.agents/skills/vega/SKILL.md` | Vega visualization grammar |
 <!-- /markdown-viewer -->
+
+<!-- skill-creator -->
+# Skill-Creator - Meta-Skill Development Tool
+
+This project uses [skill-creator](https://github.com/anthropics/skills/tree/main/skills/skill-creator) (by Anthropic) for creating, testing, and iterating custom SKILL.md files.
+
+| Skill | File | Use Case |
+|-------|------|----------|
+| skill-creator | `.agents/skills/skill-creator/SKILL.md` | Meta-skill: create, test, evaluate, and improve other skills |
+
+**Workflow**: capture intent → draft SKILL.md → create test cases → parallel A/B testing (with/without skill) → evaluate → iterate → package.
+<!-- /skill-creator -->
