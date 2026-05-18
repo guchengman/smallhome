@@ -12,6 +12,8 @@ author: "SmallHome"
 
 ![image](/images/articles/wechat-55sqm-storage-template_img_001.gif)
 
+![image](/images/articles/wechat-55sqm-storage-template_img_002.png)
+
 ![image](/images/articles/wechat-55sqm-storage-template_img_003.jpeg)
 
 **钢镚儿的小户型晒家分享**
@@ -42,11 +44,15 @@ author: "SmallHome"
 
 左侧厨房面积扩大一倍，卫生间也做了三分离，**收纳面积还扩到了全屋面积的1/3**，真的是“麻雀虽小，五脏俱全”呀~
 
+![image](/images/articles/wechat-55sqm-storage-template_img_007.png)
+
 **有了入户转角，剩下全部能“开放”**
 
 55㎡的房子虽小，但屋主夫妇**希望有开放式厨房、客厅，让家人多互动交流**，也给孩子们留下美好的童年回忆。****
 
 最后的设计方案：**中岛厨房+洄游动线，他们想要的一个都没少！**
+
+![image](/images/articles/wechat-55sqm-storage-template_img_008.png)
 
 **入户玄关**
 
@@ -67,6 +73,8 @@ author: "SmallHome"
 ![image](/images/articles/wechat-55sqm-storage-template_img_011.jpeg)
 
 *左边隐约能看到岛台了*
+
+![image](/images/articles/wechat-55sqm-storage-template_img_012.png)
 
 **中岛厨房**
 
@@ -96,6 +104,8 @@ author: "SmallHome"
 
 **在“鸡肋”的橱柜转角区，改用小推车灵活收纳**，日常蔬菜、水果、调味料都可以放在这，随时取用很方便。
 
+![image](/images/articles/wechat-55sqm-storage-template_img_016.png)
+
 **亲子互动客厅**
 
 从厨房出来就进入了客厅区，**中间通过一面书架墙隔断，把左边的用水区和右侧的起居室串联起来**，形成一条利于大家庭使用的洄游动线。
@@ -120,6 +130,8 @@ author: "SmallHome"
 
 屋主夫妇在家的话，还会辅导孩子学习，**旁边的餐桌也可以随时变成“亲子学习专区”~**
 
+![image](/images/articles/wechat-55sqm-storage-template_img_020.png)
+
 **多人小户型，分散收纳＞集中收纳**
 
 你别看这套房面积不大，**但收纳却能占到1/3！**
@@ -127,6 +139,8 @@ author: "SmallHome"
 ![image](/images/articles/wechat-55sqm-storage-template_img_021.jpeg)
 
 考虑到这是6人同住的大家庭，设计师直接**放弃了集中打柜子、做衣帽间，改在卧室、客厅做分散式收纳**。
+
+![image](/images/articles/wechat-55sqm-storage-template_img_022.png)
 
 **榻榻米：不是“日式”标签**
 
@@ -147,6 +161,8 @@ author: "SmallHome"
 很多全屋定制用的**密度板吸水率很高，时间长了就会潮湿、变形**。
 
 **而实木排骨架的承重、稳定性会更高**，屋主目前用了一年多也没有出现潮湿、发霉的问题。
+
+![image](/images/articles/wechat-55sqm-storage-template_img_025.png)
 
 **小户型收纳不靠抠，靠算！**
 
@@ -172,9 +188,13 @@ author: "SmallHome"
 
 ![image](/images/articles/wechat-55sqm-storage-template_img_028.jpeg)
 
+![image](/images/articles/wechat-55sqm-storage-template_img_029.png)
+
 **小户型省空间：****隔断法！**
 
 除了收纳多，这套房另一个设计亮点就在**空间隔断**上，你想看的**卫浴三分离、2房改3房**的秘密就都藏在这了~
+
+![image](/images/articles/wechat-55sqm-storage-template_img_030.png)
 
 **卫浴三分离，折叠是关键！**
 
@@ -217,6 +237,8 @@ author: "SmallHome"
 *浴室、马桶间用的都是折叠门隔断*
 
 但国内很多**“平替”设计治标不治本**，你前期装修是省钱了，等这问题暴露出来，**后期维修才是家装的痛点！**（论经验值，还是日系建材靠谱）
+
+![image](/images/articles/wechat-55sqm-storage-template_img_036.png)
 
 **拆墙打柜！2房变3房**
 
@@ -283,6 +305,5 @@ author: "SmallHome"
 ![image](/images/articles/wechat-55sqm-storage-template_img_042.jpeg)
 
 ![image](/images/articles/wechat-55sqm-storage-template_img_043.gif)
-
 
 

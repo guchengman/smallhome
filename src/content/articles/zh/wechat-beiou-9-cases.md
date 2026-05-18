@@ -16,6 +16,8 @@ author: "SmallHome"
 
 很多人将宜家等同于北欧风格，并不能说完全是错的，但大家要清楚的是，宜家只是北欧风格中的一种具体商品化体现，不能完全代表北欧风，今天大叔带大家看一组真正的北欧风格设计。
 
+![image](/images/articles/wechat-beiou-9-cases_img_001.jpeg)
+
 **第一套**
 
 （套内面积：66平米）
@@ -48,6 +50,8 @@ author: "SmallHome"
 
 ![image](/images/articles/wechat-beiou-9-cases_img_014.jpeg)
 
+![image](/images/articles/wechat-beiou-9-cases_img_015.jpeg)
+
 **第二套**
 
 （套内面积：79平米）
@@ -67,6 +71,8 @@ author: "SmallHome"
 ![image](/images/articles/wechat-beiou-9-cases_img_021.jpeg)
 
 ![image](/images/articles/wechat-beiou-9-cases_img_022.jpeg)
+
+![image](/images/articles/wechat-beiou-9-cases_img_023.jpeg)
 
 **第三套**
 
@@ -99,6 +105,8 @@ author: "SmallHome"
 ![image](/images/articles/wechat-beiou-9-cases_img_035.jpeg)
 
 ![image](/images/articles/wechat-beiou-9-cases_img_036.jpeg)
+
+![image](/images/articles/wechat-beiou-9-cases_img_037.jpeg)
 
 **第四套**
 
@@ -136,6 +144,8 @@ author: "SmallHome"
 
 ![image](/images/articles/wechat-beiou-9-cases_img_052.png)
 
+![image](/images/articles/wechat-beiou-9-cases_img_053.jpeg)
+
 **第五套**
 
 （套内面积：66平米）
@@ -157,6 +167,8 @@ author: "SmallHome"
 ![image](/images/articles/wechat-beiou-9-cases_img_060.png)
 
 ![image](/images/articles/wechat-beiou-9-cases_img_061.png)
+
+![image](/images/articles/wechat-beiou-9-cases_img_062.jpeg)
 
 **第六套**
 
@@ -190,6 +202,8 @@ author: "SmallHome"
 
 ![image](/images/articles/wechat-beiou-9-cases_img_075.png)
 
+![image](/images/articles/wechat-beiou-9-cases_img_076.jpeg)
+
 **第七套**
 
 （套内面积：59平米）
@@ -220,6 +234,8 @@ author: "SmallHome"
 
 ![image](/images/articles/wechat-beiou-9-cases_img_088.png)
 
+![image](/images/articles/wechat-beiou-9-cases_img_089.jpeg)
+
 **第八套**
 
 （套内面积：30平米）
@@ -245,6 +261,8 @@ author: "SmallHome"
 ![image](/images/articles/wechat-beiou-9-cases_img_098.png)
 
 ![image](/images/articles/wechat-beiou-9-cases_img_099.png)
+
+![image](/images/articles/wechat-beiou-9-cases_img_100.jpeg)
 
 **第九套**
 
@@ -289,6 +307,5 @@ author: "SmallHome"
 **点击左下角“阅读原文”领取免费设计**
 
 ![image](/images/articles/wechat-beiou-9-cases_img_115.jpeg)
-
 
 

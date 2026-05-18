@@ -18,6 +18,8 @@ author: "SmallHome"
 
 下面有一些实用的收纳技能，就算是小户型也适用，让家里变成温暖港湾。
 
+![image](/images/articles/wechat-ins-shouna-tips_img_003.gif)
+
 **厕所**
 
 我们从功能性最鲜明的地方入手，厕所不仅承载了很重要的收纳功能，其美观舒适程度也直接影响了幸福感，试问谁不想拥有一个整洁干爽的厕所呢。
@@ -54,6 +56,8 @@ author: "SmallHome"
 
 ****
 
+![image](/images/articles/wechat-ins-shouna-tips_img_009.gif)
+
 **厨房**
 
 小户型的厨房一般是开放式或者半开放式的，这样的厨房设计减少了做饭洗碗时的孤独感，能边互动边烹饪，非常适合年轻couple。厨房有几个地方其实也是可以利用。
@@ -81,6 +85,8 @@ author: "SmallHome"
 吊柜上的东西尽量放置不常用的东西，同时要保证物品轻便好取用，否则很容易在取放过程中受伤。
 
 ![image](/images/articles/wechat-ins-shouna-tips_img_013.jpeg)
+
+![image](/images/articles/wechat-ins-shouna-tips_img_014.gif)
 
 **卧室**
 
@@ -110,6 +116,8 @@ author: "SmallHome"
 
 这样的摆放顺序对身材不是很高大，但是对衣柜依赖性最强的女主人是非常友好。
 
+![image](/images/articles/wechat-ins-shouna-tips_img_019.gif)
+
 **客厅**
 
 客厅，其实是最容易被忽视的收纳空间，整个家1/5的空间什么也不放只是每晚看一个小时电视太浪费了。
@@ -135,6 +143,5 @@ author: "SmallHome"
 ![image](/images/articles/wechat-ins-shouna-tips_img_026.jpeg)
 
 以上就是今天讲到的小户型整理收纳技巧啦，希望看到文章的你也能够和你最爱的TA一起动手，打造属于自己的温馨小家！
-
 
 

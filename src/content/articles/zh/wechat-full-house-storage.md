@@ -5,7 +5,7 @@ publishedAt: "2026-05-18"
 updatedAt: "2026-05-18"
 categories: ["tips", "space"]
 tags: ["全屋收纳", "扩容", "攻略"]
-coverImage: "/images/articles/wechat-full-house-storage.jpeg"
+coverImage: "/images/articles/wechat-full-house-storage.gif"
 author: "SmallHome"
 ---
 
@@ -44,6 +44,8 @@ author: "SmallHome"
 
 小户型**玄关和鞋柜**怎么做收纳？
 
+![image](/images/articles/wechat-full-house-storage_img_005.png)
+
 小户型的玄关空间比较紧张，要在有限的空间内放得下鞋柜、换衣镜，需要精心安排位置。**可以因地制宜的设计一排边柜，放鞋子和衣服，鞋柜的宽度最少要在350mm。**
 
 ![image](/images/articles/wechat-full-house-storage_img_006.jpeg)
@@ -58,6 +60,8 @@ author: "SmallHome"
 
 小户型**餐厅**怎么做收纳？
 
+![image](/images/articles/wechat-full-house-storage_img_010.png)
+
 餐边柜用来放一下常用小家电和碗盘等，如果户型较小，建议定做“顶天立地”的柜子代替成品矮柜，以保证实用。
 
 ![image](/images/articles/wechat-full-house-storage_img_011.jpeg)
@@ -71,6 +75,8 @@ author: "SmallHome"
 ![image](/images/articles/wechat-full-house-storage_img_014.jpeg)
 
 小户型厨房怎么做收纳？
+
+![image](/images/articles/wechat-full-house-storage_img_015.png)
 
 厨房一直是收纳的重灾区，在根据厨房形状选择好橱柜的形式之后，还需要加一些收纳神器帮助超负荷的橱柜保持整齐。
 
@@ -88,6 +94,8 @@ author: "SmallHome"
 
 客厅怎么做收纳？
 
+![image](/images/articles/wechat-full-house-storage_img_019.png)
+
 客厅的电视背景柜可以发挥超强的收纳功用。
 
 ![image](/images/articles/wechat-full-house-storage_img_020.jpeg)
@@ -99,6 +107,8 @@ author: "SmallHome"
 ![image](/images/articles/wechat-full-house-storage_img_022.jpeg)
 
 卫生间收纳的要领是什么？
+
+![image](/images/articles/wechat-full-house-storage_img_023.png)
 
 超强收纳能力浴室柜加一些小神器，可以让卫生间的收纳翻倍。
 
@@ -113,6 +123,8 @@ author: "SmallHome"
 ![image](/images/articles/wechat-full-house-storage_img_027.jpeg)
 
 小户型卧室怎么做收纳？
+
+![image](/images/articles/wechat-full-house-storage_img_028.png)
 
 卧室的衣柜是卧室收纳的主力军，衣柜的布局十分重要，可以根据自己的收纳习惯灵活选择。
 
@@ -169,6 +181,5 @@ author: "SmallHome"
 如需转载本文或商业合作请后台联系客服
 
 ![image](/images/articles/wechat-full-house-storage_img_037.gif)
-
 
 

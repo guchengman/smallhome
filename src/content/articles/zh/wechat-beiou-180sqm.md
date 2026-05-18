@@ -86,9 +86,13 @@ author: "SmallHome"
 
 大理石简约茶几摆上精致的装饰物件儿瞬间浪漫十足，从配色到家具到饰品都要有一种暖暖的感觉。
 
+![image](/images/articles/wechat-beiou-180sqm_img_010.gif)
+
 家具清单
 
-[](images/img_002.jpg)
+![image](/images/articles/wechat-beiou-180sqm_img_011.gif)
+
+[](/images/articles/wechat-beiou-180sqm_img_002.jpg
 
 一家一居皮质组合沙发
 
@@ -108,9 +112,13 @@ author: "SmallHome"
 
 ![image](/images/articles/wechat-beiou-180sqm_img_016.gif)
 
+![image](/images/articles/wechat-beiou-180sqm_img_017.gif)
+
 家具清单
 
-[](images/img_002.jpg)
+![image](/images/articles/wechat-beiou-180sqm_img_018.gif)
+
+[](/images/articles/wechat-beiou-180sqm_img_002.jpg
 
 ![image](/images/articles/wechat-beiou-180sqm_img_019.jpeg)
 
@@ -128,9 +136,13 @@ author: "SmallHome"
 
 卧室为一家一居定制衣柜，米白色与墙面设计的毫无违和感，衣柜表面特殊的材质不仅温暖还可以反射光源，增加空间感！
 
+![image](/images/articles/wechat-beiou-180sqm_img_024.gif)
+
 家具清单
 
-[](images/img_002.jpg)
+![image](/images/articles/wechat-beiou-180sqm_img_025.gif)
+
+[](/images/articles/wechat-beiou-180sqm_img_002.jpg
 
 北欧风格实木床头柜
 
@@ -140,7 +152,7 @@ author: "SmallHome"
 
 次卧实木真皮床，床屏简约耐看，搭配RCC款天然乳胶床垫，触感舒适，空间显得非常温馨！飘窗的设计十分舒适，观摩窗外风景，将自然引入室内！
 
-[](images/img_002.jpg)
+[](/images/articles/wechat-beiou-180sqm_img_002.jpg
 
 戳图片购买详情
 
@@ -152,9 +164,13 @@ author: "SmallHome"
 
 ![image](/images/articles/wechat-beiou-180sqm_img_029.gif)
 
+![image](/images/articles/wechat-beiou-180sqm_img_030.gif)
+
 家具清单
 
-[](images/img_002.jpg)
+![image](/images/articles/wechat-beiou-180sqm_img_031.gif)
+
+[](/images/articles/wechat-beiou-180sqm_img_002.jpg
 
 一家一居北欧现代皮艺床
 
@@ -162,9 +178,13 @@ author: "SmallHome"
 
 ![image](/images/articles/wechat-beiou-180sqm_img_033.jpeg)
 
+![image](/images/articles/wechat-beiou-180sqm_img_034.gif)
+
 家具清单
 
-[](images/img_002.jpg)
+![image](/images/articles/wechat-beiou-180sqm_img_035.gif)
+
+[](/images/articles/wechat-beiou-180sqm_img_002.jpg
 
 一家一居北欧现代皮质椅
 
@@ -241,6 +261,8 @@ author: "SmallHome"
 **一家一居，整屋家居新零售**
 
 ![image](/images/articles/wechat-beiou-180sqm_img_044.gif)
+
+![image](/images/articles/wechat-beiou-180sqm_img_045.gif)
 
 **戳“阅读原文”**
 

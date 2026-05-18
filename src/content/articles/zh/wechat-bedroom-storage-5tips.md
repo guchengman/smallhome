@@ -5,7 +5,7 @@ publishedAt: "2026-05-18"
 updatedAt: "2026-05-18"
 categories: ["tips", "space"]
 tags: ["卧室收纳", "扩容", "技巧"]
-coverImage: "/images/articles/wechat-bedroom-storage-5tips.jpeg"
+coverImage: "/images/articles/wechat-bedroom-storage-5tips.gif"
 author: "SmallHome"
 ---
 
@@ -75,6 +75,5 @@ author: "SmallHome"
 **-END-**
 
 ![image](/images/articles/wechat-bedroom-storage-5tips_img_012.png)
-
 
 

@@ -10,6 +10,8 @@ author: "SmallHome"
 ---
 
 
+![image](/images/articles/wechat-living-room-design_img_001.gif)
+
 客厅作为一个会客与休息的地方，就算它的面积不足，在设计上也不能含糊。通过合理的软装、硬装的搭配，同样可以把小户型客厅变得优雅而又精致，别不信，一起看看这些小户型客厅装修效果图，你就懂了。
 
 ![image](/images/articles/wechat-living-room-design_img_002.jpeg)
@@ -52,6 +54,8 @@ author: "SmallHome"
 
 **往期精彩回顾**
 
+![image](/images/articles/wechat-living-room-design_img_011.gif)
+
 [现代客厅该怎么装修？8款高雅经典的效果图，供你参考](http://mp.weixin.qq.com/s?__biz=MzI3OTczNTU0Mw==&mid=2247486624&idx=1&sn=7cb13a71507d0b4335c1fe45988c0b46&chksm=eb427138dc35f82e006ea347236e5304eac94b219a5846ada31833d0826f52fa9e4afd0f293c&scene=21#wechat_redirect)
 [8款白色窗帘效果图，打造纯净唯美的小空间](http://mp.weixin.qq.com/s?__biz=MzI3OTczNTU0Mw==&mid=2247486612&idx=2&sn=457c8aea2e9c4569455de76a245b7b7a&chksm=eb42710cdc35f81ac77a2f591f85bccffbbe97f164eb417013e35bdf9cd251ed25d5acea076d&scene=21#wechat_redirect)
 [中式博古架装修效果图，古典家具的新生魅力](http://mp.weixin.qq.com/s?__biz=MzI3OTczNTU0Mw==&mid=2247486599&idx=1&sn=f9184b27e4cb3d257cb37885b0de180f&chksm=eb42711fdc35f809bc1446fe8369d8d34c54be61c522aabe5d6843521c3b8be8cb1911be68b4&scene=21#wechat_redirect)[8款走廊背景墙效果图，让过道成最靓丽风景线](http://mp.weixin.qq.com/s?__biz=MzI3OTczNTU0Mw==&mid=2247486572&idx=1&sn=700f468f5f4c5c625cf4619a81768f5b&chksm=eb4271f4dc35f8e27514da83130bbdfb4b43159977ca54e6ee2f7c780ad4697482ea9a4d76ba&scene=21#wechat_redirect)
@@ -60,6 +64,5 @@ author: "SmallHome"
 【长按下方二维码，关注看更多案例】
 
 ![image](/images/articles/wechat-living-room-design_img_012.jpeg)
-
 
 

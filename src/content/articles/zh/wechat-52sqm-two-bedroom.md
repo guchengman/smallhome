@@ -118,6 +118,8 @@ author: "SmallHome"
 
 图：网络/侵联删
 
+![image](/images/articles/wechat-52sqm-two-bedroom_img_021.gif)
+
 ◆[94㎡现代三室，半开放式的厨房、书房，让居室互通互透，共享光线](http://mp.weixin.qq.com/s?__biz=MzU5NDAzMjQ3MQ==&mid=2247491804&idx=2&sn=4bf3864b285dd2d15861dbf11bcf2c6b&chksm=fe05c2e4c9724bf2c24193af897edd6416ff6f7f9358daba1dc17390094d581fcda4aaf6fbbd&scene=21#wechat_redirect)
 
 ◆[110㎡北欧INS三室，玄关、电视墙、卧室的嵌入式柜子，巧妙实用](http://mp.weixin.qq.com/s?__biz=MzU5NDAzMjQ3MQ==&mid=2247491794&idx=1&sn=8abc100fbe068e930ed87ef94a89c257&chksm=fe05c2eac9724bfc9666d031f5955249b0bb8a44acd5788e3a89f8b06ff73afdc9d6f1881284&scene=21#wechat_redirect)
@@ -129,6 +131,5 @@ author: "SmallHome"
 ◆[87平日式三室，沙发墙成了图书架，小吧台是隔断收纳，也可用餐学习](http://mp.weixin.qq.com/s?__biz=MzU5NDAzMjQ3MQ==&mid=2247491776&idx=1&sn=04827d3216063b58a6c309f83bb526a3&chksm=fe05c2f8c9724beede23cbbaa2493132e4b1c33b1690a93acd6fb9c220ceeaaa82b53cb82931&scene=21#wechat_redirect)
 
 ![image](/images/articles/wechat-52sqm-two-bedroom_img_022.jpeg)
-
 
 

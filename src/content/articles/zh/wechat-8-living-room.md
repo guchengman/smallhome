@@ -10,6 +10,8 @@ author: "SmallHome"
 ---
 
 
+![image](/images/articles/wechat-8-living-room_img_001.gif)
+
 既然是小户型，那么客厅面积当然也大不到哪去，所以该怎么装修小户型小面积的客厅呢？小面积客厅是不是装修可以随意一些？如果您这么想，那么势必会让一切显得杂乱无章，所以还是需要花点心思，开动脑筋，让小面积的客厅也展现出无与伦比的精彩出来。
 
 ![image](/images/articles/wechat-8-living-room_img_002.jpeg)
@@ -46,6 +48,8 @@ author: "SmallHome"
 
 **往期精彩回顾**
 
+![image](/images/articles/wechat-8-living-room_img_010.gif)
+
 [136平三居室，新中式风格装修超漂亮，尤其是书房！](http://mp.weixin.qq.com/s?__biz=MzU5NDAzMjQ3MQ==&mid=2247487599&idx=1&sn=404e676ad7ebf62dff9e8af41f0d6342&chksm=fe063257c971bb4165b4bf6263cf3edef57c5870bf60d5bdea3c56ece9afba8c68099ab80b8c&scene=21#wechat_redirect)
 
 [90平日式新房，衣帽间和书房组合在一起了，这设计值得借鉴！](http://mp.weixin.qq.com/s?__biz=MzU5NDAzMjQ3MQ==&mid=2247487584&idx=1&sn=6f1b2900886e2fe1da52d0b86dc9320f&chksm=fe063258c971bb4e9476ceca996b26fc8b1f8afa1ec82dff288a61877852a3cf04ba0387ff82&scene=21#wechat_redirect)
@@ -57,6 +61,5 @@ author: "SmallHome"
 [120平美式三居室，邻居看了都说也要这样做玄关和电视背景墙](http://mp.weixin.qq.com/s?__biz=MzU5NDAzMjQ3MQ==&mid=2247487520&idx=1&sn=f29038f4f00b698afa50c335863f9bae&chksm=fe063218c971bb0e8deeb141abdf5bd9347c51c177d94687c96224741f4d243f1555323b473d&scene=21#wechat_redirect)
 
 ![image](/images/articles/wechat-8-living-room_img_011.jpeg)
-
 
 

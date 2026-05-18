@@ -5,7 +5,7 @@ publishedAt: "2026-05-18"
 updatedAt: "2026-05-18"
 categories: ["gallery"]
 tags: ["设计案例", "小户型", "装修灵感"]
-coverImage: "/images/articles/wechat-design-cases.jpeg"
+coverImage: "/images/articles/wechat-design-cases.gif"
 author: "SmallHome"
 ---
 
@@ -404,6 +404,5 @@ Brad Swartz Architects
 ● ● ●
 
 ![image](/images/articles/wechat-design-cases_img_068.jpeg)
-
 
 

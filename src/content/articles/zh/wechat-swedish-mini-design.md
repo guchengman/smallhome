@@ -5,7 +5,7 @@ publishedAt: "2026-05-18"
 updatedAt: "2026-05-18"
 categories: ["style", "gallery"]
 tags: ["瑞典设计", "极小户型", "北欧"]
-coverImage: "/images/articles/wechat-swedish-mini-design.jpeg"
+coverImage: "/images/articles/wechat-swedish-mini-design.gif"
 author: "SmallHome"
 ---
 
@@ -139,6 +139,5 @@ FashionHome在千聊上开微课堂了！
 ↓↓↓ 点击阅读原文进入Fashion Home商店
 
 觉得内容还不错的话，文末点个“在看”呗～
-
 
 

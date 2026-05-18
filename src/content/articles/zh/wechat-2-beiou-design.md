@@ -80,6 +80,8 @@ author: "SmallHome"
 
 ![image](/images/articles/wechat-2-beiou-design_img_021.jpeg)
 
+![image](/images/articles/wechat-2-beiou-design_img_022.png)
+
 本公众号已开通业主QQ交流群，群号：572822556，欢迎入群沟通交流！
 
 欢迎业主、设计师、装修公司投稿
@@ -93,6 +95,5 @@ author: "SmallHome"
 ![image](/images/articles/wechat-2-beiou-design_img_024.png)
 
 ◀◀◀ 长按二维码关注我们
-
 
 

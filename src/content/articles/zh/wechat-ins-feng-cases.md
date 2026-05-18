@@ -26,6 +26,8 @@ Discard the complexities and return to the essence of life.
 
 现代简约风格是一种注重功能至上、追求简洁造型、运用鲜明色彩对比和新型材料的装修风格。它源于20世纪初的西方现代主义，特别受到包豪斯学派“形式追随功能”思想的影响。
 
+![image](/images/articles/wechat-ins-feng-cases_img_002.png)
+
 本设计案例完美呈现了一个现代简约风格的居住空间，通过精心规划的客餐厅一体化布局与宁静舒适的主卧空间，展现了现代都市生活对品质、功能与美学的卓越追求。
 
 **序章：开放互联的客餐厅空间^**
@@ -76,6 +78,8 @@ Discard the complexities and return to the essence of life.
 
 ![image](/images/articles/wechat-ins-feng-cases_img_014.jpeg)
 
+![image](/images/articles/wechat-ins-feng-cases_img_015.png)
+
 **主旋律：主卧设计^**
 
 主卧空间是专为休息与放松设计的避风港，整体色调更为柔和宁静，以灰、白为主，辅以温润的木色元素。床头的软包靠背或悬浮式床头柜设计兼具美观与实用性。
@@ -119,6 +123,5 @@ Discard the complexities and return to the essence of life.
 ![image](/images/articles/wechat-ins-feng-cases_img_027.png)
 
 ![image](/images/articles/wechat-ins-feng-cases_img_028.png)
-
 
 

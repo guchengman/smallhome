@@ -5,7 +5,7 @@ publishedAt: "2026-05-18"
 updatedAt: "2026-05-18"
 categories: ["area", "space"]
 tags: ["89㎡", "小三房", "收纳"]
-coverImage: "/images/articles/wechat-89sqm-storage.jpeg"
+coverImage: "/images/articles/wechat-89sqm-storage.jpg"
 author: "SmallHome"
 ---
 
@@ -148,7 +148,8 @@ author: "SmallHome"
 
 点个“好看”再走呗▽▽▽
 
-**点击“阅读原文”，免费设计美家**
+![image](/images/articles/wechat-89sqm-storage_img_026.gif)
 
+**点击“阅读原文”，免费设计美家**
 
 

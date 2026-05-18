@@ -5,7 +5,7 @@ publishedAt: "2026-05-18"
 updatedAt: "2026-05-18"
 categories: ["area", "style"]
 tags: ["小户型", "装修攻略", "空间设计", "收纳"]
-coverImage: "/images/articles/wechat-xiaohuxing-zhuangxiu-gonglue.jpeg"
+coverImage: "/images/articles/wechat-xiaohuxing-zhuangxiu-gonglue.gif"
 author: "SmallHome"
 ---
 
@@ -289,6 +289,5 @@ PS:部分图片来源于网络，如果侵权，请联系删除。
 ****
 
 爱我请给我点“在看
-
 
 
