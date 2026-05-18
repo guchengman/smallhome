@@ -12,15 +12,84 @@ export function getStaticPaths() {
 const locale = (Astro.params.locale || 'zh') as LocaleCode;
 const t = getTranslations(locale);
 
-// Sample articles for initial display - will be replaced by D1 queries
-const sampleArticles = [
-  { title: locale === 'zh' ? '30㎡住3口人，怎么做到的？' : 'How a Family of 3 Lives Comfortably in 30sqm', desc: locale === 'zh' ? '一个30平米的小家，通过精妙的空间设计实现了两室一厅的居住需求。' : 'Achieving 2 beds and a living room in 30sqm through clever design.', cat: 'area', slug: '30sqm-family-of-3', image: '/og/default.jpg', views: 12580, date: '2026-05-10' },
-  { title: locale === 'zh' ? '装修花了5万 vs 15万，差在哪？' : '5万 vs 15万 Renovation: What\'s the Difference?', desc: locale === 'zh' ? '详解不同预算下的装修品质差异，帮你做出最合理的预算分配。' : 'Detailed comparison of renovation quality at different budgets.', cat: 'budget', slug: '50k-vs-150k', image: '/og/default.jpg', views: 9830, date: '2026-05-08' },
-  { title: locale === 'zh' ? '这10个设计，让50㎡看起来像80㎡' : '10 Design Tricks to Make 50sqm Look Like 80sqm', desc: locale === 'zh' ? '巧妙的视觉效果和空间规划，让小户型也能拥有开阔感。' : 'Clever optical illusions and space planning to make small homes feel spacious.', cat: 'style', slug: '10-design-tricks', image: '/og/default.jpg', views: 15420, date: '2026-05-05' },
-  { title: locale === 'zh' ? '5㎡小厨房的7种布局方案' : '7 Layout Ideas for a 5sqm Kitchen', desc: locale === 'zh' ? '附详细尺寸图的厨房布局指南，每一厘米都精打细算。' : 'Every centimeter counts — detailed dimensioned kitchen layout guide.', cat: 'space', slug: '5sqm-kitchen-layouts', image: '/og/default.jpg', views: 7650, date: '2026-05-03' },
-  { title: locale === 'zh' ? '小户型日式收纳的10个细节' : '10 Japandi Storage Details for Small Homes', desc: locale === 'zh' ? '日式收纳的精髓在于细节，从小物件到大空间的无缝衔接。' : 'Storage mastery through seamless integration of details.', cat: 'style', slug: 'japandi-storage', image: '/og/default.jpg', views: 11200, date: '2026-05-01' },
-  { title: locale === 'zh' ? '2026装修避坑大全：合同篇' : '2026 Renovation Traps: Contract Guide', desc: locale === 'zh' ? '装修合同中的10个常见陷阱，签合同前一定要看清楚这些条款。' : '10 common traps in renovation contracts you must check before signing.', cat: 'tips', slug: 'contract-traps-2026', image: '/og/default.jpg', views: 8900, date: '2026-04-28' },
-];
+// En titles for B站 articles
+const enTitles: Record<string, string> = {
+  'bv1qgvdzrei7': 'Small Home Design Tips You Can\'t Miss',
+  'bv1fo1qybe9d': '52sqm Tour: Real Renovation Living',
+  'bv11u4y1a7qt': '31sqm Solo Living: Small Home, Big Heart',
+  'bv155411w7dx': '7 Ways to Make Your Small Home Feel Bigger',
+  'bv1vb4y157ny': '78sqm Small Home Tour for Renovation Ideas',
+  'bv1ejhcz7e2n': '7sqm Bedroom Makeover You\'ll Love',
+  'bv12h8jzzefe': 'Internet-Famous Decor Regrets After Moving In',
+  'bv1yr5k6lejs': '90sqm Mid-Century Modern Small Home',
+  'bv1ku411p7ub': '30 Living & Dining Room Decor Ideas',
+  'bv1nriqyte8c': 'Ultimate Guide to Choosing a Good Floor Plan',
+  'bv1ou4m1c724': '70sqm Modern Minimalist Renovation Review',
+  'bv1dd5n6ge1s': 'Small Home Storage Secrets That Work',
+  'bv1fmnoeyeb9': 'J-style Storage: 70sqm That Holds Everything',
+  'bv1z4411x7qk': '15sqm Couple + Cat Space Miracle',
+  'bv1mg411u7sd': '8 Storage Methods for Every Room',
+  'bv1mxkhyyekm': 'Super Practical Storage Tips for Small Spaces',
+  'bv1cacnycecm': 'Budget Storage Hacks That Double Your Space',
+  'bv12p9cysexb': '20sqm Rental Storage Magic: Use Every Gap',
+  'bv1dlkzztewh': 'Under $150 Bedroom Storage Makeover',
+  'bv1sw5p63ech': 'Old Home Transformed Under $150',
+  'bv1az4y1g7sd': 'Why Japanese Small Homes Feel So Spacious',
+  'bv13c411a7ts': '89sqm Storage Paradise: Maxing Every Inch',
+  'bv1fu4y1x7bp': 'IKEA Hacks: 6 Mini Storages in a Small Home',
+  'bv1byolbneen': 'New Home Renovation? Start Here',
+  'bv1wt9dy6eyd': '6sqm Bedroom Genius Design',
+  'bv1xgqgyjesm': '200% Space Utilization for Small Homes',
+  'bv1sx4y157gv': 'Invisible Storage: 100sqm Feels Like 200sqm',
+  'bv147411m7st': 'China vs Germany: 18sqm Ultra-Small Home Challenge',
+  'bv1bu4y1j7sj': 'Japanese 45sqm Apartment Minimalist Design',
+  'bv1hxvyzaeu5': 'Visual Expansion Tricks for Small Spaces',
+  'bv1zen1zse2j': 'DIY Home Design: Complete Process Guide',
+  'bv1fx516vec3': 'Ultimate Small Home Transformation Guide',
+  'bv1kge3zcehq': '92sqm Italian Minimalist: Trend or Timeless?',
+  'bv13tolbzeap': '12 Decor Styles: Budget & Reality Check',
+};
+
+// Dynamic loading from markdown files via Astro.glob
+const zhPosts = await Astro.glob('/src/content/articles/zh/*.md');
+
+interface ArticleMeta {
+  title: string;
+  description: string;
+  categories: string[];
+  slug: string;
+  image: string;
+  views: number;
+  date: string;
+}
+
+function getSlug(filePath: string): string {
+  const parts = filePath.replace(/\\/g, '/').split('/');
+  const name = parts.pop() || '';
+  return name.replace(/\.md$/, '');
+}
+
+function articlesFromPosts(posts: typeof zhPosts, locale: string): ArticleMeta[] {
+  return posts.map(post => {
+    const slug = getSlug(post.file);
+    const fm = post.frontmatter;
+    return {
+      title: locale === 'en' && enTitles[slug] ? enTitles[slug] : (fm.title || ''),
+      description: fm.description || '',
+      categories: (fm.categories as string[]) || ['tips'],
+      slug,
+      image: (fm.coverImage as string) || '/og/default.jpg',
+      views: parseInt(String(fm.viewCount || '0'), 10),
+      date: (fm.publishedAt as string) || '',
+    };
+  }).sort((a, b) => {
+    const dc = b.date.localeCompare(a.date);
+    if (dc !== 0) return dc;
+    return b.views - a.views;
+  });
+}
+
+const sampleArticles = articlesFromPosts(zhPosts, locale || 'zh').slice(0, 12);
 
 const heroEntries = [
   { href: 'area/30-40sqm', label: t.home.areaEntry },
@@ -89,7 +158,7 @@ const heroEntries = [
   <script>
   document.getElementById('hero-search')?.addEventListener('keydown', function(e) {
     if (e.key === 'Enter' && this.value.trim()) {
-      location.href = '/{locale}/search?q=' + encodeURIComponent(this.value.trim());
+      location.href = '/search?q=' + encodeURIComponent(this.value.trim());
     }
   });
 </script>

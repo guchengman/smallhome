@@ -2,9 +2,9 @@
 title: "2026 Renovation Traps: Contract Guide"
 description: "10 common traps in renovation contracts you must check before signing."
 publishedAt: "2026-04-28"
-category: "tips"
+categories: ["tips"]
 tags: ["contract", "traps", "renovation company"]
-coverImage: "/og/default.jpg"
+coverImage: "/images/articles/contract-traps-2026.jpg"
 author: "SmallHome"
 ---
 

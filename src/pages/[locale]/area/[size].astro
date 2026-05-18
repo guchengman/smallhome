@@ -19,11 +19,57 @@ const t = getTranslations(locale as LocaleCode);
 const range = areaRanges.find(a => a.slug === size);
 const areaLabel = range ? (locale === 'zh' ? `${range.min}-${range.max}㎡` : `${range.min}-${range.max} sqm`) : size;
 
-const sampleArticles = [
-  { title: locale === 'zh' ? `${areaLabel}小户型装修全攻略` : `Complete Guide to ${areaLabel} Renovation`, desc: locale === 'zh' ? `针对${areaLabel}户型的全方位装修方案，从布局到预算全覆盖。` : `Full renovation plan for ${areaLabel}, covering layout to budget.`, slug: `${size}-complete-guide`, views: 8900, date: '2026-05-10' },
-  { title: locale === 'zh' ? `${areaLabel}空间利用的5个秘诀` : `5 Space-Saving Secrets for ${areaLabel}`, desc: locale === 'zh' ? `最大化利用${areaLabel}空间的实用技巧。` : `Practical tips to maximize ${areaLabel} space.`, slug: `${size}-space-secrets`, views: 6700, date: '2026-05-05' },
-  { title: locale === 'zh' ? `${areaLabel}装修预算清单` : `${areaLabel} Renovation Budget Checklist`, desc: locale === 'zh' ? `一份详细的${areaLabel}装修预算清单，避免超支。` : `Detailed ${areaLabel} renovation budget breakdown.`, slug: `${size}-budget-checklist`, views: 12300, date: '2026-04-28' },
-];
+// En titles for B站 articles
+const enTitles: Record<string, string> = {
+  'bv1qgvdzrei7': 'Small Home Design Tips You Can\'t Miss',
+  'bv1fo1qybe9d': '52sqm Tour: Real Renovation Living',
+  'bv11u4y1a7qt': '31sqm Solo Living: Small Home, Big Heart',
+  'bv1vb4y157ny': '78sqm Small Home Tour for Renovation Ideas',
+  'bv1yr5k6lejs': '90sqm Mid-Century Modern Small Home',
+  'bv1ou4m1c724': '70sqm Modern Minimalist Renovation Review',
+  'bv1sw5p63ech': 'Old Home Transformed Under $150',
+  'bv1sx4y157gv': 'Invisible Storage: 100sqm Feels Like 200sqm',
+  'bv147411m7st': 'China vs Germany: 18sqm Ultra-Small Home Challenge',
+  'bv1bu4y1j7sj': 'Japanese 45sqm Apartment Minimalist Design',
+};
+
+const zhPosts = await Astro.glob('/src/content/articles/zh/*.md');
+
+interface ArticleMeta {
+  title: string;
+  description: string;
+  slug: string;
+  image: string;
+  views: number;
+  date: string;
+}
+
+function getSlug(filePath: string): string {
+  const parts = filePath.replace(/\\/g, '/').split('/');
+  const name = parts.pop() || '';
+  return name.replace(/\.md$/, '');
+}
+
+const sampleArticles: ArticleMeta[] = zhPosts
+  .filter(p => p.frontmatter.categories?.includes('area'))
+  .filter(p => !p.frontmatter.areaSize || p.frontmatter.areaSize === size)
+  .map(post => {
+    const slug = getSlug(post.file);
+    const fm = post.frontmatter;
+    return {
+      title: locale === 'en' && enTitles[slug] ? enTitles[slug] : (fm.title || ''),
+      description: fm.description || '',
+      slug,
+      image: (fm.coverImage as string) || '/og/default.jpg',
+      views: parseInt(String(fm.viewCount || '0'), 10),
+      date: (fm.publishedAt as string) || '',
+    };
+  })
+  .sort((a, b) => {
+    const dc = b.date.localeCompare(a.date);
+    if (dc !== 0) return dc;
+    return b.views - a.views;
+  });
 ---
 
 <Layout>
@@ -55,7 +101,7 @@ const sampleArticles = [
     <div class="article-grid" style="margin-top:1.5rem">
       {sampleArticles.map(a => (
         <article class="card article-card">
-          <img src="/og/default.jpg" alt={a.title} loading="lazy" class="article-card__image" width="600" height="375" />
+          <img src={a.image} alt={a.title} loading="lazy" class="article-card__image" width="600" height="375" />
           <div class="article-card__body">
             <a href={`/${locale}/articles/${a.slug}`} style="color:inherit">
               <h3 class="article-card__title">{a.title}</h3>

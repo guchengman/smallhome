@@ -2,9 +2,9 @@
 title: "装修公司报价单怎么看？教你识破增项陷阱"
 description: "一份标准的装修报价单应该包含哪些项目？教你识破增项陷阱。"
 publishedAt: "2026-05-06"
-category: "tips"
+categories: ["tips"]
 tags: ["报价单", "装修公司", "增项", "避坑"]
-coverImage: "/og/default.jpg"
+coverImage: "/images/articles/reading-quotes.jpg"
 author: "SmallHome"
 ---
 

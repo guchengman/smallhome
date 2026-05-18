@@ -14,20 +14,84 @@ const locale = (Astro.params.locale || 'zh') as LocaleCode;
 const t = getTranslations(locale);
 const isZh = locale === 'zh';
 
-const allArticles = [
-  { title: isZh ? '30㎡住3口人，怎么做到的？' : 'How a Family of 3 Lives Comfortably in 30sqm', desc: isZh ? '精妙的空间设计实现两室一厅。' : 'Achieving 2 beds and a living room in 30sqm.', cat: 'area', slug: '30sqm-family-of-3', views: 12580, date: '2026-05-10' },
-  { title: isZh ? '5㎡小厨房的7种布局方案' : '7 Layout Ideas for a 5sqm Kitchen', desc: isZh ? '详细尺寸图+布局方案，每一厘米都精打细算。' : 'Detailed dimensioned layouts.', cat: 'space', slug: '5sqm-kitchen-layouts', views: 7650, date: '2026-05-08' },
-  { title: isZh ? '装修花了5万 vs 15万，差在哪？' : '5万 vs 15万 Renovation: What\'s the Difference?', desc: isZh ? '详解不同预算下的装修品质差异。' : 'Comparing quality at different budgets.', cat: 'budget', slug: '50k-vs-150k', views: 9830, date: '2026-05-08' },
-  { title: isZh ? '这10个设计，让50㎡看起来像80㎡' : '10 Design Tricks to Make 50sqm Look Like 80sqm', desc: isZh ? '巧妙的视觉效果让小户型拥有开阔感。' : 'Optical illusions for spacious feel.', cat: 'style', slug: '10-design-tricks', views: 15420, date: '2026-05-05' },
-  { title: isZh ? '小户型日式收纳的10个细节' : '10 Japandi Storage Details for Small Homes', desc: isZh ? '日式收纳的精髓在于细节。' : 'Storage mastery through details.', cat: 'style', slug: 'japandi-storage', views: 11200, date: '2026-05-01' },
-  { title: isZh ? '2026装修避坑大全：合同篇' : '2026 Renovation Traps: Contract Guide', desc: isZh ? '装修合同中的10个常见陷阱。' : '10 traps in contracts.', cat: 'tips', slug: 'contract-traps-2026', views: 8900, date: '2026-04-28' },
-  { title: isZh ? '奶油风客厅设计集锦' : 'Cream-Style Living Room Collection', desc: isZh ? '奶油风设计案例灵感集。' : 'Cream-style design inspirations.', cat: 'gallery', slug: 'cream-living-gallery', views: 14200, date: '2026-05-09' },
-  { title: isZh ? '水电改造最容易忽略的7个问题' : '7 Electrical & Plumbing Issues', desc: isZh ? '隐蔽工程注意事项。' : 'Hidden work issues.', cat: 'tips', slug: 'electrical-pitfalls', views: 12300, date: '2026-05-10' },
-  { title: isZh ? '阳台改造案例精选' : 'Balcony Makeover Gallery', desc: isZh ? '小阳台的N种可能。' : 'N possibilities for balconies.', cat: 'gallery', slug: 'balcony-makeovers', views: 9600, date: '2026-05-01' },
-];
+// En titles for B站 articles
+const enTitles: Record<string, string> = {
+  'bv1qgvdzrei7': 'Small Home Design Tips You Can\'t Miss',
+  'bv1fo1qybe9d': '52sqm Tour: Real Renovation Living',
+  'bv11u4y1a7qt': '31sqm Solo Living: Small Home, Big Heart',
+  'bv155411w7dx': '7 Ways to Make Your Small Home Feel Bigger',
+  'bv1vb4y157ny': '78sqm Small Home Tour for Renovation Ideas',
+  'bv1ejhcz7e2n': '7sqm Bedroom Makeover You\'ll Love',
+  'bv12h8jzzefe': 'Internet-Famous Decor Regrets After Moving In',
+  'bv1yr5k6lejs': '90sqm Mid-Century Modern Small Home',
+  'bv1ku411p7ub': '30 Living & Dining Room Decor Ideas',
+  'bv1nriqyte8c': 'Ultimate Guide to Choosing a Good Floor Plan',
+  'bv1ou4m1c724': '70sqm Modern Minimalist Renovation Review',
+  'bv1dd5n6ge1s': 'Small Home Storage Secrets That Work',
+  'bv1fmnoeyeb9': 'J-style Storage: 70sqm That Holds Everything',
+  'bv1z4411x7qk': '15sqm Couple + Cat Space Miracle',
+  'bv1mg411u7sd': '8 Storage Methods for Every Room',
+  'bv1mxkhyyekm': 'Super Practical Storage Tips for Small Spaces',
+  'bv1cacnycecm': 'Budget Storage Hacks That Double Your Space',
+  'bv12p9cysexb': '20sqm Rental Storage Magic: Use Every Gap',
+  'bv1dlkzztewh': 'Under $150 Bedroom Storage Makeover',
+  'bv1sw5p63ech': 'Old Home Transformed Under $150',
+  'bv1az4y1g7sd': 'Why Japanese Small Homes Feel So Spacious',
+  'bv13c411a7ts': '89sqm Storage Paradise: Maxing Every Inch',
+  'bv1fu4y1x7bp': 'IKEA Hacks: 6 Mini Storages in a Small Home',
+  'bv1byolbneen': 'New Home Renovation? Start Here',
+  'bv1wt9dy6eyd': '6sqm Bedroom Genius Design',
+  'bv1xgqgyjesm': '200% Space Utilization for Small Homes',
+  'bv1sx4y157gv': 'Invisible Storage: 100sqm Feels Like 200sqm',
+  'bv147411m7st': 'China vs Germany: 18sqm Ultra-Small Home Challenge',
+  'bv1bu4y1j7sj': 'Japanese 45sqm Apartment Minimalist Design',
+  'bv1hxvyzaeu5': 'Visual Expansion Tricks for Small Spaces',
+  'bv1zen1zse2j': 'DIY Home Design: Complete Process Guide',
+  'bv1fx516vec3': 'Ultimate Small Home Transformation Guide',
+  'bv1kge3zcehq': '92sqm Italian Minimalist: Trend or Timeless?',
+  'bv13tolbzeap': '12 Decor Styles: Budget & Reality Check',
+};
+
+// Dynamic loading from markdown files via Astro.glob
+const zhPosts = await Astro.glob('/src/content/articles/zh/*.md');
+
+interface ArticleMeta {
+  title: string;
+  description: string;
+  categories: string[];
+  slug: string;
+  image: string;
+  views: number;
+  date: string;
+}
+
+function getSlug(filePath: string): string {
+  const parts = filePath.replace(/\\/g, '/').split('/');
+  const name = parts.pop() || '';
+  return name.replace(/\.md$/, '');
+}
+
+const allArticles: ArticleMeta[] = zhPosts.map(post => {
+  const slug = getSlug(post.file);
+  const fm = post.frontmatter;
+  return {
+    title: locale === 'en' && enTitles[slug] ? enTitles[slug] : (fm.title || ''),
+    description: fm.description || '',
+    categories: (fm.categories as string[]) || ['tips'],
+    slug,
+    image: (fm.coverImage as string) || '/og/default.jpg',
+    views: parseInt(String(fm.viewCount || '0'), 10),
+    date: (fm.publishedAt as string) || '',
+  };
+});
+allArticles.sort((a, b) => {
+  const dc = b.date.localeCompare(a.date);
+  if (dc !== 0) return dc;
+  return b.views - a.views;
+});
 
 const page = parseInt(Astro.url.searchParams.get('page') || '1');
-const perPage = 6;
+const perPage = 12;
 const totalPages = Math.ceil(allArticles.length / perPage);
 const pagedArticles = allArticles.slice((page - 1) * perPage, page * perPage);
 ---
@@ -59,14 +123,14 @@ const pagedArticles = allArticles.slice((page - 1) * perPage, page * perPage);
     <div class="article-grid" style="margin-top:1.5rem">
       {pagedArticles.map(a => (
         <article class="card article-card">
-          <img src="/og/default.jpg" alt={a.title} loading="lazy" class="article-card__image" width="600" height="375" />
+          <img src={a.image} alt={a.title} loading="lazy" class="article-card__image" width="600" height="375" />
           <div class="article-card__body">
             <a href={`/${locale}/articles/${a.slug}`} style="color:inherit">
               <h3 class="article-card__title">{a.title}</h3>
             </a>
             <p class="article-card__desc">{a.desc}</p>
             <div class="article-card__meta">
-              <span class="tag">{t.categories[a.cat] || a.cat}</span>
+              <span class="tag">{t.categories[a.categories[0]] || a.categories[0]}</span>
               <span>{a.date}</span>
               <span>{a.views.toLocaleString()} {t.article.views}</span>
             </div>

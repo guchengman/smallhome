@@ -2,9 +2,11 @@
 title: "30㎡北欧风小家实景图赏"
 description: "实景拍摄，每一寸空间都精致实用。"
 publishedAt: "2026-05-12"
-category: "gallery"
+categories: ["area", "style"]
 tags: ["北欧风", "小户型", "实景案例"]
-coverImage: "/og/default.jpg"
+areaSize: 30-40sqm
+styleName: nordic
+coverImage: "/images/articles/30sqm-scandi-tour.jpg"
 author: "SmallHome"
 ---
 

@@ -2,9 +2,10 @@
 title: "这10个设计，让50㎡看起来像80㎡"
 description: "巧妙的视觉效果和空间规划，让小户型也能拥有开阔感。"
 publishedAt: "2026-05-05"
-category: "style"
+categories: ["style", "tips"]
 tags: ["小户型", "空间感", "视觉技巧", "装修设计"]
-coverImage: "/og/default.jpg"
+areaSize: 40-50sqm
+coverImage: "/images/articles/10-design-tricks.jpg"
 author: "SmallHome"
 ---
 

@@ -2,9 +2,11 @@
 title: "奶油风客厅设计案例集锦"
 description: "30个奶油风客厅设计案例，每一张都是灵感。"
 publishedAt: "2026-05-09"
-category: "gallery"
+categories: ["style", "space"]
 tags: ["奶油风", "客厅", "设计案例"]
-coverImage: "/og/default.jpg"
+room: livingroom
+styleName: cream
+coverImage: "/images/articles/cream-living-gallery.jpg"
 author: "SmallHome"
 ---
 

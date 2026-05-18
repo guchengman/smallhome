@@ -2,9 +2,10 @@
 title: "10 Design Tricks to Make 50sqm Look Like 80sqm"
 description: "Clever optical illusions and space planning to make small homes feel spacious."
 publishedAt: "2026-05-05"
-category: "style"
+categories: ["style", "tips"]
 tags: ["small apartment", "space-saving", "visual tricks", "design"]
-coverImage: "/og/default.jpg"
+areaSize: 40-50sqm
+coverImage: "/images/articles/10-design-tricks.jpg"
 author: "SmallHome"
 ---
 

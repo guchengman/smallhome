@@ -1,0 +1,69 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import SEOHead from '../../../components/SEOHead.astro';
+import AdSlot from '../../../components/AdSlot.astro';
+import { getTranslations } from '../../../i18n/index';
+import { budgetRanges } from '../../../i18n/categories';
+import type { LocaleCode } from '../../../i18n/types';
+
+export function getStaticPaths() {
+  return [{ params: { locale: 'zh' } }, { params: { locale: 'en' } }];
+}
+
+const locale = (Astro.params.locale || 'zh') as LocaleCode;
+const t = getTranslations(locale);
+const isZh = locale === 'zh';
+
+const zhPosts = await Astro.glob('/src/content/articles/zh/*.md');
+
+type CountMap = Record<string, number>;
+const budgetCounts: CountMap = {};
+for (const r of budgetRanges) {
+  budgetCounts[r.slug] = zhPosts.filter(p =>
+    p.frontmatter.categories?.includes('budget') &&
+    (!p.frontmatter.budgetRange || p.frontmatter.budgetRange === r.slug)
+  ).length;
+}
+
+const budgetEntries = budgetRanges.map(r => ({
+  slug: r.slug,
+  label: formatBudget(r),
+  count: budgetCounts[r.slug] || 0,
+}));
+
+function formatBudget(r: typeof budgetRanges[number]): string {
+  if (!isZh) {
+    if (r.max === undefined) return `Over ¥${(r.min! / 1000).toFixed(0)}k`;
+    if (r.min === undefined) return `Under ¥${(r.max / 1000).toFixed(0)}k`;
+    return `¥${(r.min / 1000).toFixed(0)}k-¥${(r.max / 1000).toFixed(0)}k`;
+  }
+  if (r.max === undefined) return `${(r.min! / 10000).toFixed(0)}万以上`;
+  if (r.min === undefined) return `${(r.max / 10000).toFixed(0)}万以内`;
+  return `${(r.min / 10000).toFixed(0)}万-${(r.max / 10000).toFixed(0)}万`;
+}
+---
+
+<Layout>
+  <SEOHead
+    title={isZh ? '按预算选择装修方案' : 'Browse by Budget'}
+    description={isZh ? '根据装修预算找到适合的装修方案，从3万以内到15万以上全覆盖。' : 'Find renovation plans that fit your budget, from under ¥30k to ¥150k+.'}
+  />
+
+  <div class="container" style="margin-top:2rem">
+    <h1>{isZh ? '按预算选择' : 'Browse by Budget'}</h1>
+    <p style="color:var(--text-light);margin-bottom:1.5rem">
+      {isZh ? '根据你的预算找到最合适的装修方案' : 'Find the best renovation plan for your budget'}
+    </p>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1rem">
+      {budgetEntries.map(r => (
+          <a href={`/${locale}/budget/${r.slug}`} class="card" style="padding:2rem;text-align:center;text-decoration:none;color:inherit;transition:transform .2s,box-shadow .2s">
+            <div style="font-size:1.3rem;font-weight:700;margin-bottom:.5rem">{r.label}</div>
+            <div style="color:var(--text-light);font-size:.85rem">{isZh ? `${r.count} 篇文章` : `${r.count} articles`}</div>
+          </a>
+        ))}
+    </div>
+
+    <AdSlot type="banner" />
+  </div>
+</Layout>

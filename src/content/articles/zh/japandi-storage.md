@@ -2,9 +2,10 @@
 title: "小户型日式收纳的10个细节"
 description: "日式收纳的精髓在于细节，从小物件到大空间的无缝衔接。"
 publishedAt: "2026-05-01"
-category: "style"
+categories: ["style", "space", "tips"]
 tags: ["日式", "收纳", "小户型", "整理"]
-coverImage: "/og/default.jpg"
+styleName: japanese
+coverImage: "/images/articles/japandi-storage.jpg"
 author: "SmallHome"
 ---
 

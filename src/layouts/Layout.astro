@@ -6,10 +6,20 @@ import '../styles/graphics.css';
 import type { LocaleCode } from '../i18n/types';
 import { getTranslations } from '../i18n/index';
 
-const locale = (Astro.locale || 'zh') as LocaleCode;
-const t = getTranslations(locale);
 const path = Astro.url.pathname;
+const locale = (path.startsWith('/en') ? 'en' : 'zh') as LocaleCode;
+const t = getTranslations(locale);
 const isHome = path === '/' || path === '/zh' || path === '/zh/' || path === '/en' || path === '/en/';
+
+function localePath(target: string): string {
+  if (path.startsWith('/zh/')) return path.replace('/zh/', `/${target}/`);
+  if (path === '/zh') return `/${target}`;
+  if (path.startsWith('/en/')) return path.replace('/en/', `/${target}/`);
+  if (path === '/en') return `/${target}`;
+  return path;
+}
+const zhPath = localePath('zh');
+const enPath = localePath('en');
 
 const navItems = [
   { href: 'area/30-40sqm', label: t.nav.area },
@@ -27,7 +37,7 @@ const navItems = [
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>小家装修指南 SmallHome</title>
+  <title>{locale === 'zh' ? '小家装修指南' : 'SmallHome Guide'}</title>
   <meta name="description" content={t.home.heroSubtitle} />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="alternate" hreflang="zh" href={`https://smallhome.xyz${path.replace(/^\/en/, '') || '/'}`} />
@@ -41,14 +51,10 @@ const navItems = [
       var saved = localStorage.getItem('smallhome-locale');
       var isZhPath = location.pathname.startsWith('/zh');
       var isEnPath = location.pathname.startsWith('/en');
-      if (saved === 'en' && !isEnPath) {
-        var path = location.pathname;
-        if (isZhPath) path = path.replace(/^\/zh/, '') || '/';
-        location.replace('/en' + path);
-      } else if (saved === 'zh' && !isZhPath) {
-        var path = location.pathname;
-        if (isEnPath) path = path.replace(/^\/en/, '') || '/';
-        location.replace('/zh' + path);
+      if (saved === 'en' && isZhPath) {
+        location.replace('/en' + path.replace(/^\/zh/, '') || '/');
+      } else if (saved === 'zh' && isEnPath) {
+        location.replace('/zh' + path.replace(/^\/en/, '') || '/');
       }
     })();
   </script>
@@ -71,16 +77,17 @@ const navItems = [
         <a href="/search" class="btn btn-ghost hide-xs" aria-label={t.nav.search}>
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
         </a>
-        <div class="hide-sm">
-          <a href={locale === 'zh' ? '/en/' : '/zh/'} class="btn btn-ghost" title={t.nav.language} onclick="localStorage.setItem('smallhome-locale', '{locale === 'zh' ? 'en' : 'zh'}')">
+        <div class="hide-sm locale-switch">
+          <button class="btn btn-ghost locale-switch__trigger" title={t.nav.language}>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-            {locale === 'zh' ? 'EN' : '中文'}
-          </a>
+            <span>{locale === 'zh' ? '中文' : 'EN'}</span>
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m6 9 6 6 6-6"/></svg>
+          </button>
+          <div class="locale-switch__dropdown">
+            <a href={zhPath} onclick="localStorage.setItem('smallhome-locale','zh')" class={locale === 'zh' ? 'active' : ''}>中文</a>
+            <a href={enPath} onclick="localStorage.setItem('smallhome-locale','en')" class={locale === 'en' ? 'active' : ''}>English</a>
+          </div>
         </div>
-        <span id="auth-area">
-          <a href="/login" class="btn btn-outline">{t.nav.login}</a>
-          <a href="/login?mode=register" class="btn btn-primary">{t.nav.register}</a>
-        </span>
         <button class="hamburger" id="hamburger" aria-label="Menu">
           <span></span><span></span><span></span>
         </button>
@@ -97,7 +104,10 @@ const navItems = [
       {navItems.map(item => (
         <a href={`/${locale}/${item.href}`} style="display:block;padding:.75rem;border-bottom:1px solid var(--border);color:var(--text)">{item.label}</a>
       ))}
-      <a href={locale === 'zh' ? '/en/' : '/zh/'} style="display:block;padding:.75rem;margin-top:1rem;color:var(--primary);font-weight:500" onclick="localStorage.setItem('smallhome-locale', '{locale === 'zh' ? 'en' : 'zh'}')">{t.nav.language}</a>
+      <div style="display:flex;gap:.5rem;padding:.75rem 0;margin-top:1rem;border-top:1px solid var(--border)">
+        <a href={zhPath} onclick="localStorage.setItem('smallhome-locale','zh')" style="flex:1;text-align:center;padding:.5rem;border-radius:6px;font-weight:500;color:var(--text);text-decoration:none;background:{locale === 'zh' ? 'var(--primary)' : 'var(--bg)'};color:{locale === 'zh' ? '#fff' : 'var(--text)'}">中文</a>
+        <a href={enPath} onclick="localStorage.setItem('smallhome-locale','en')" style="flex:1;text-align:center;padding:.5rem;border-radius:6px;font-weight:500;color:var(--text);text-decoration:none;background:{locale === 'en' ? 'var(--primary)' : 'var(--bg)'};color:{locale === 'en' ? '#fff' : 'var(--text)'}">English</a>
+      </div>
     </div>
   </div>
 
@@ -111,7 +121,7 @@ const navItems = [
     <div class="footer__grid">
       <div class="footer__col">
         <h4>{t.footer.about}</h4>
-        <a href={locale === 'zh' ? '/zh/articles/about' : '/en/articles/about'}>SmallHome.xyz</a>
+        <a href={locale === 'zh' ? '/zh/articles/about' : '/en/articles/about'}>SmallHome.top</a>
         <a href={locale === 'zh' ? '/zh/articles/contact' : '/en/articles/contact'}>{locale === 'zh' ? '联系我们' : 'Contact'}</a>
       </div>
       <div class="footer__col">

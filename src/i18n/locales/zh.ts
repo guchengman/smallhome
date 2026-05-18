@@ -142,7 +142,7 @@ const zh: Translations = {
     about: '关于我们',
     categories: '内容分类',
     links: '友情链接',
-    copyright: '© 2026 小家装修指南 SmallHome.xyz — 让每一平米都有价值',
+    copyright: '© 2026 小家装修指南 SmallHome.top — 让每一平米都有价值',
   },
 };
 

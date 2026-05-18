@@ -13,12 +13,52 @@ const locale = (Astro.params.locale || 'zh') as LocaleCode;
 const t = getTranslations(locale);
 const isZh = locale === 'zh';
 
-const sampleArticles = [
-  { title: isZh ? '装修合同中的10个常见陷阱' : '10 Common Traps in Renovation Contracts', desc: isZh ? '签合同前一定要看清这些条款，避免被坑。' : 'Must-check clauses before signing to avoid getting ripped off.', slug: 'contract-traps-2026', views: 8900, date: '2026-04-28' },
-  { title: isZh ? '水电改造最容易忽略的7个问题' : '7 Often-Overlooked Electrical & Plumbing Issues', desc: isZh ? '水电改造是隐蔽工程，这些问题不注意后期维修成本巨大。' : 'Hidden work issues that cost a fortune to fix later.', slug: 'electrical-pitfalls', views: 12300, date: '2026-05-10' },
-  { title: isZh ? '装修公司报价单怎么看？' : 'How to Read a Renovation Quote', desc: isZh ? '一份标准的装修报价单应该包含哪些项目？教你识破增项陷阱。' : 'What should a standard quote include? Learn to spot hidden fees.', slug: 'reading-quotes', views: 15600, date: '2026-05-06' },
-  { title: isZh ? '甲醛检测的5个误区' : '5 Formaldehyde Testing Myths', desc: isZh ? '你以为通风几个月就安全了？关于甲醛你必须知道的真相。' : 'Think a few months of airing out is enough? The truth about formaldehyde.', slug: 'formaldehyde-myths', views: 7200, date: '2026-04-30' },
-];
+// En titles for B站 articles (tips category)
+const enTitles: Record<string, string> = {
+  'bv155411w7dx': '7 Ways to Make Your Small Home Feel Bigger',
+  'bv12h8jzzefe': 'Internet-Famous Decor Regrets After Moving In',
+  'bv1nriqyte8c': 'Ultimate Guide to Choosing a Good Floor Plan',
+  'bv1hxvyzaeu5': 'Visual Expansion Tricks for Small Spaces',
+  'bv1zen1zse2j': 'DIY Home Design: Complete Process Guide',
+  'bv1fx516vec3': 'Ultimate Small Home Transformation Guide',
+};
+
+const zhPosts = await Astro.glob('/src/content/articles/zh/*.md');
+
+interface ArticleMeta {
+  title: string;
+  description: string;
+  slug: string;
+  image: string;
+  views: number;
+  date: string;
+}
+
+function getSlug(filePath: string): string {
+  const parts = filePath.replace(/\\/g, '/').split('/');
+  const name = parts.pop() || '';
+  return name.replace(/\.md$/, '');
+}
+
+const sampleArticles: ArticleMeta[] = zhPosts
+  .filter(p => p.frontmatter.categories?.includes('tips'))
+  .map(post => {
+    const slug = getSlug(post.file);
+    const fm = post.frontmatter;
+    return {
+      title: locale === 'en' && enTitles[slug] ? enTitles[slug] : (fm.title || ''),
+      description: fm.description || '',
+      slug,
+      image: (fm.coverImage as string) || '/og/default.jpg',
+      views: parseInt(String(fm.viewCount || '0'), 10),
+      date: (fm.publishedAt as string) || '',
+    };
+  })
+  .sort((a, b) => {
+    const dc = b.date.localeCompare(a.date);
+    if (dc !== 0) return dc;
+    return b.views - a.views;
+  });
 ---
 
 <Layout>
@@ -38,7 +78,7 @@ const sampleArticles = [
     <div class="article-grid" style="margin-top:1.5rem">
       {sampleArticles.map(a => (
         <article class="card article-card">
-          <img src="/og/default.jpg" alt={a.title} loading="lazy" class="article-card__image" width="600" height="375" />
+          <img src={a.image} alt={a.title} loading="lazy" class="article-card__image" width="600" height="375" />
           <div class="article-card__body">
             <a href={`/${locale}/articles/${a.slug}`} style="color:inherit">
               <h3 class="article-card__title">{a.title}</h3>

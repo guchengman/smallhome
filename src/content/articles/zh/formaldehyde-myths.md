@@ -2,9 +2,9 @@
 title: "甲醛检测的5个误区"
 description: "你以为通风几个月就安全了？关于甲醛你必须知道的真相。"
 publishedAt: "2026-04-30"
-category: "tips"
+categories: ["tips"]
 tags: ["甲醛", "环保", "健康", "检测"]
-coverImage: "/og/default.jpg"
+coverImage: "/images/articles/formaldehyde-myths.jpg"
 author: "SmallHome"
 ---
 

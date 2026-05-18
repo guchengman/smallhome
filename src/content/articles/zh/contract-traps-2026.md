@@ -2,9 +2,9 @@
 title: "2026装修避坑大全：合同篇"
 description: "装修合同中的10个常见陷阱，签合同前一定要看清楚这些条款。"
 publishedAt: "2026-04-28"
-category: "tips"
+categories: ["tips"]
 tags: ["装修合同", "陷阱", "避坑", "装修公司"]
-coverImage: "/og/default.jpg"
+coverImage: "/images/articles/contract-traps-2026.jpg"
 author: "SmallHome"
 ---
 

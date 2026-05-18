@@ -3,9 +3,10 @@ title: "How a Family of 3 Lives Comfortably in 30sqm"
 description: "Achieving 2 bedrooms and a living room in just 30sqm through clever design. Detailed breakdown of every space-saving trick."
 publishedAt: "2026-05-10"
 updatedAt: "2026-05-12"
-category: "area"
+categories: ["area", "space"]
 tags: ["small apartment", "30sqm", "space saving", "storage"]
-coverImage: "/og/default.jpg"
+areaSize: 30-40sqm
+coverImage: "/images/articles/30sqm-family-of-3.jpg"
 author: "SmallHome"
 ---
 

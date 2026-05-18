@@ -2,9 +2,10 @@
 title: "日式收纳的神仙操作"
 description: "这些收纳设计不仅好看，还好用到哭。"
 publishedAt: "2026-05-05"
-category: "gallery"
+categories: ["style", "space"]
 tags: ["日式", "收纳", "设计灵感"]
-coverImage: "/og/default.jpg"
+styleName: japanese
+coverImage: "/images/articles/japandi-storage-gallery.jpg"
 author: "SmallHome"
 ---
 

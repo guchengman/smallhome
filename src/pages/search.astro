@@ -11,22 +11,34 @@ const query = Astro.url.searchParams.get('q') || '';
 const allContent = import.meta.glob('/src/content/articles/**/*.md', { eager: true, query: '?raw' });
 const articles = Object.entries(allContent).map(([key, mod]) => {
   const raw = (mod as { default: string })?.default || '';
-  const match = raw.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
+  const match = raw.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n([\s\S]*)$/);
   if (!match) return null;
-  const fm: Record<string, string> = {};
+  const fm: Record<string, unknown> = {};
   for (const line of match[1].split('\n')) {
     const idx = line.indexOf(':');
     if (idx > 0) {
-      let val = line.slice(idx + 1).trim();
-      if ((val.startsWith('"') && val.endsWith('"')) || (val.startsWith("'") && val.endsWith("'"))) val = val.slice(1, -1);
-      fm[line.slice(0, idx).trim()] = val;
+      let val: unknown = line.slice(idx + 1).trim();
+      const key = line.slice(0, idx).trim();
+      // Parse array values: ["a", "b"] or ['a', 'b']
+      if (val.toString().startsWith('[') && val.toString().endsWith(']')) {
+        try {
+          val = JSON.parse(val.toString().replace(/'/g, '"'));
+        } catch { val = val.toString().slice(1, -1).split(',').map((s: string) => s.trim().replace(/['"]/g, '')); }
+      } else if (
+        (val.toString().startsWith('"') && val.toString().endsWith('"')) ||
+        (val.toString().startsWith("'") && val.toString().endsWith("'"))
+      ) {
+        val = val.toString().slice(1, -1);
+      }
+      fm[key] = val;
     }
   }
   const slugMatch = key.match(/(?:zh|en)\/(.+)\.md$/);
   return {
-    title: fm.title || '',
-    description: fm.description || '',
-    category: fm.category || '',
+    title: (fm.title as string) || '',
+    description: (fm.description as string) || '',
+    categories: (fm.categories as string[]) || [''],
+    categoryLabel: t.categories[((fm.categories as string[]) || [''])[0]] || ((fm.categories as string[]) || [''])[0] || '',
     slug: slugMatch ? slugMatch[1] : '',
     locale: key.includes('/en/') ? 'en' : 'zh',
     body: match[2].slice(0, 200),
@@ -51,20 +63,21 @@ const searchResults = query
     </div>
     <div id="search-results">
       {query && searchResults.length > 0
-        ? searchResults.map(a => `
-          <div class="card" style="padding:1.25rem;margin-top:.75rem">
-            <a href="/${a.locale}/articles/${a.slug}" style="font-weight:600;font-size:1.05rem">${a.title}</a>
-            <p style="color:var(--text-light);font-size:.85rem;margin-top:.3rem">${a.description}</p>
-            <span class="tag" style="margin-top:.5rem">${t.categories[a.category] || a.category}</span>
-          </div>
-        `).join('')
-        : query ? '<p style="color:var(--text-light);text-align:center;margin-top:3rem">' + t.common.noResults + '</p>'
-        : '<p style="color:var(--text-light);text-align:center;margin-top:3rem">' + t.home.searchPlaceholder + '...</p>'
+        ? searchResults.map(a => (
+            <div class="card" style="padding:1.25rem;margin-top:.75rem">
+              <a href={`/${a.locale}/articles/${a.slug}`} style="font-weight:600;font-size:1.05rem">{a.title}</a>
+              <p style="color:var(--text-light);font-size:.85rem;margin-top:.3rem">{a.description}</p>
+              <span class="tag" style="margin-top:.5rem">{a.categoryLabel}</span>
+            </div>
+          ))
+        : query
+          ? <p style="color:var(--text-light);text-align:center;margin-top:3rem">{t.common.noResults}</p>
+          : <p style="color:var(--text-light);text-align:center;margin-top:3rem">{t.home.searchPlaceholder}...</p>
       }
     </div>
   </div>
 
-  <script type="application/json" id="_search-data">{JSON.stringify(searchResults)}</script>
+  <script type="application/json" id="_search-data" set:html={JSON.stringify(articles)}></script>
   <script>
     var input = document.getElementById('search-input');
     var results = document.getElementById('search-results');
@@ -91,7 +104,7 @@ const searchResults = query
         }
 
         results.innerHTML = filtered.map(function(a) {
-          return '<div class="card" style="padding:1.25rem;margin-top:.75rem"><a href="/' + a.locale + '/articles/' + a.slug + '" style="font-weight:600;font-size:1.05rem">' + a.title + '</a><p style="color:var(--text-light);font-size:.85rem;margin-top:.3rem">' + a.description + '</p><span class="tag" style="margin-top:.5rem">' + a.category + '</span></div>';
+          return '<div class="card" style="padding:1.25rem;margin-top:.75rem"><a href="/' + a.locale + '/articles/' + a.slug + '" style="font-weight:600;font-size:1.05rem">' + a.title + '</a><p style="color:var(--text-light);font-size:.85rem;margin-top:.3rem">' + a.description + '</p><span class="tag" style="margin-top:.5rem">' + (a.categoryLabel || '') + '</span></div>';
         }).join('');
       }, 300);
     });

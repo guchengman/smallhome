@@ -2,9 +2,9 @@
 title: "水电改造最容易忽略的7个问题"
 description: "水电改造是隐蔽工程，这些问题不注意后期维修成本巨大。"
 publishedAt: "2026-05-10"
-category: "tips"
+categories: ["tips"]
 tags: ["水电改造", "隐蔽工程", "装修施工"]
-coverImage: "/og/default.jpg"
+coverImage: "/images/articles/electrical-pitfalls.jpg"
 author: "SmallHome"
 ---
 

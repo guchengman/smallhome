@@ -2,9 +2,10 @@
 title: "阳台改造案例精选"
 description: "小阳台的N种可能，从晾晒区到休闲花园。"
 publishedAt: "2026-05-01"
-category: "gallery"
+categories: ["space"]
 tags: ["阳台", "改造", "设计案例"]
-coverImage: "/og/default.jpg"
+room: balcony
+coverImage: "/images/articles/balcony-makeovers.jpg"
 author: "SmallHome"
 ---
 

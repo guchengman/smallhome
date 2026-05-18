@@ -13,12 +13,16 @@ const pieData = data.map((d, i) => {
   const pct = computedTotal > 0 ? (d.value / computedTotal) * 100 : 0;
   return { ...d, pct: Math.round(pct * 10) / 10, color: d.color || colors[i % colors.length] };
 });
+const chartId = `pie-${title?.replace(/\s/g,'') || 'chart'}`;
 ---
 
 <div class="budget-chart" style="text-align:center;margin:1.5rem 0">
   {title && <p style="font-weight:600;margin-bottom:1rem">{title}</p>}
   <div style="display:flex;align-items:center;gap:1.5rem;justify-content:center;flex-wrap:wrap">
-    <canvas id={`pie-${title?.replace(/\s/g,'') || 'chart'}`} width="200" height="200" style="max-width:200px"></canvas>
+    <canvas id={chartId} width="200" height="200" style="max-width:200px"
+      data-total={computedTotal}
+      data-segments={JSON.stringify(pieData.map(d => ({ label: d.label, value: d.value, color: d.color })))}>
+    </canvas>
     <div style="text-align:left">
       {pieData.map((d, i) => (
         <div key={i} style="display:flex;align-items:center;gap:.5rem;margin-bottom:.4rem;font-size:.85rem">
@@ -35,22 +39,21 @@ const pieData = data.map((d, i) => {
 </div>
 
 <script>
-  (function() {
-    const canvas = document.getElementById(`pie-${title?.replace(/\s/g,'') || 'chart'}`) as HTMLCanvasElement | null;
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('.budget-chart canvas').forEach(function(canvas) {
+    var total = parseFloat(canvas.getAttribute('data-total') || '0');
+    var segments = JSON.parse(canvas.getAttribute('data-segments') || '[]');
+    var ctx = canvas.getContext('2d');
     if (!ctx) return;
-    const dpr = window.devicePixelRatio || 1;
-    const size = 200;
+    var dpr = window.devicePixelRatio || 1;
+    var size = 200;
     canvas.width = size * dpr;
     canvas.height = size * dpr;
     ctx.scale(dpr, dpr);
-    const cx = size / 2, cy = size / 2, r = 90;
-    const total = ${computedTotal};
-    const segments = ${JSON.stringify(pieData.map(d => ({ label: d.label, value: d.value, color: d.color })))};
-    let angle = -Math.PI / 2;
-    segments.forEach((s: {value: number; color: string}) => {
-      const slice = (s.value / total) * Math.PI * 2;
+    var cx = size / 2, cy = size / 2, r = 90;
+    var angle = -Math.PI / 2;
+    segments.forEach(function(s) {
+      var slice = (s.value / total) * Math.PI * 2;
       ctx.beginPath();
       ctx.moveTo(cx, cy);
       ctx.arc(cx, cy, r, angle, angle + slice);
@@ -66,5 +69,6 @@ const pieData = data.map((d, i) => {
     ctx.arc(cx, cy, r * .55, 0, Math.PI * 2);
     ctx.fillStyle = '#fff';
     ctx.fill();
-  })();
+  });
+});
 </script>

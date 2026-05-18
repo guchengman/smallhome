@@ -100,6 +100,11 @@ h3 { font-size: clamp(1.05rem, 2.5vw, 1.4rem); }
   color: var(--primary);
 }
 
+.tag--secondary {
+  background: var(--accent-bg, #f0f7ff);
+  color: var(--accent, #4a6fa5);
+}
+
 .badge {
   display: inline-flex;
   align-items: center;

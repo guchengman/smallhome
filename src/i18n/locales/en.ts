@@ -142,7 +142,7 @@ const en: Translations = {
     about: 'About Us',
     categories: 'Categories',
     links: 'Links',
-    copyright: '© 2026 SmallHome.xyz — Make Every Square Meter Count',
+    copyright: '© 2026 SmallHome.top — Make Every Square Meter Count',
   },
 };
 

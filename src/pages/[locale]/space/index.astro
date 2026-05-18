@@ -1,0 +1,65 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import SEOHead from '../../../components/SEOHead.astro';
+import AdSlot from '../../../components/AdSlot.astro';
+import { getTranslations } from '../../../i18n/index';
+import { spaces, spaceNames } from '../../../i18n/categories';
+import type { LocaleCode } from '../../../i18n/types';
+
+export function getStaticPaths() {
+  return [{ params: { locale: 'zh' } }, { params: { locale: 'en' } }];
+}
+
+const locale = (Astro.params.locale || 'zh') as LocaleCode;
+const t = getTranslations(locale);
+const isZh = locale === 'zh';
+
+const zhPosts = await Astro.glob('/src/content/articles/zh/*.md');
+
+type CountMap = Record<string, number>;
+const spaceCounts: CountMap = {};
+for (const s of spaces) {
+  spaceCounts[s] = zhPosts.filter(p =>
+    p.frontmatter.categories?.includes('space') &&
+    (!p.frontmatter.room || p.frontmatter.room === s)
+  ).length;
+}
+
+const spaceIcons: Record<string, string> = {
+  kitchen: '🍳', bathroom: '🚿', livingroom: '🛋️',
+  bedroom: '🛏️', balcony: '🌿', entryway: '🚪',
+};
+
+const spaceEntries = spaces.map(s => ({
+  slug: s,
+  name: spaceNames[s]?.[locale] || s,
+  count: spaceCounts[s] || 0,
+  icon: spaceIcons[s] || '📐',
+}));
+---
+
+<Layout>
+  <SEOHead
+    title={isZh ? '按空间选择装修设计' : 'Browse by Space'}
+    description={isZh ? '按房间分区查看装修设计灵感：厨房、卫生间、客厅、卧室、阳台等。' : 'Find design ideas for every room: kitchen, bathroom, living room, bedroom, balcony and more.'}
+  />
+
+  <div class="container" style="margin-top:2rem">
+    <h1>{isZh ? '按空间选择' : 'Browse by Space'}</h1>
+    <p style="color:var(--text-light);margin-bottom:1.5rem">
+      {isZh ? '选择你想了解的房间空间' : 'Choose a room to explore'}
+    </p>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1rem">
+      {spaceEntries.map(s => (
+          <a href={`/${locale}/space/${s.slug}`} class="card" style="padding:2rem;text-align:center;text-decoration:none;color:inherit;transition:transform .2s,box-shadow .2s">
+            <div style="font-size:2rem;margin-bottom:.5rem">{s.icon}</div>
+            <div style="font-size:1.3rem;font-weight:600;margin-bottom:.5rem">{s.name}</div>
+            <div style="color:var(--text-light);font-size:.85rem">{isZh ? `${s.count} 篇文章` : `${s.count} articles`}</div>
+          </a>
+        ))}
+    </div>
+
+    <AdSlot type="banner" />
+  </div>
+</Layout>

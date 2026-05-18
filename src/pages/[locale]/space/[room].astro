@@ -17,11 +17,62 @@ const { locale, room } = Astro.params;
 const t = getTranslations(locale as LocaleCode);
 const name = spaceNames[room]?.[locale as LocaleCode] || room;
 
-const sampleArticles = [
-  { title: locale === 'zh' ? `小${name}设计的7个黄金法则` : `7 Golden Rules for Small ${name} Design`, desc: locale === 'zh' ? `详解${name}空间的布局原则与尺寸标准。` : `Layout principles and dimension standards for ${name}.`, slug: `${room}-golden-rules`, views: 9200, date: '2026-05-08' },
-  { title: locale === 'zh' ? `${name}收纳翻倍的秘密` : `Double Your ${name} Storage`, desc: locale === 'zh' ? `${name}每一处空间都不浪费的收纳方案。` : `Storage solutions that maximize every inch of your ${name.toLowerCase()}.`, slug: `${room}-storage-hacks`, views: 10500, date: '2026-05-02' },
-  { title: locale === 'zh' ? `${name}装修材料怎么选？` : `How to Choose Materials for ${name}`, desc: locale === 'zh' ? `从瓷砖到灯具，${name}装修材料选购完全指南。` : `Complete guide to choosing materials for ${name.toLowerCase()} renovation.`, slug: `${room}-materials`, views: 7400, date: '2026-04-25' },
-];
+// En titles for B站 articles (space category)
+const enTitles: Record<string, string> = {
+  'bv1dd5n6ge1s': 'Small Home Storage Secrets That Work',
+  'bv1fmnoeyeb9': 'J-style Storage: 70sqm That Holds Everything',
+  'bv1z4411x7qk': '15sqm Couple + Cat Space Miracle',
+  'bv1mg411u7sd': '8 Storage Methods for Every Room',
+  'bv1mxkhyyekm': 'Super Practical Storage Tips for Small Spaces',
+  'bv1cacnycecm': 'Budget Storage Hacks That Double Your Space',
+  'bv12p9cysexb': '20sqm Rental Storage Magic: Use Every Gap',
+  'bv1dlkzztewh': 'Under $150 Bedroom Storage Makeover',
+  'bv1az4y1g7sd': 'Why Japanese Small Homes Feel So Spacious',
+  'bv13c411a7ts': '89sqm Storage Paradise: Maxing Every Inch',
+  'bv1fu4y1x7bp': 'IKEA Hacks: 6 Mini Storages in a Small Home',
+  'bv1ejhcz7e2n': '7sqm Bedroom Makeover You\'ll Love',
+  'bv1wt9dy6eyd': '6sqm Bedroom Genius Design',
+  'bv1xgqgyjesm': '200% Space Utilization for Small Homes',
+  'bv1byolbneen': 'New Home Renovation? Start Here',
+};
+
+const zhPosts = await Astro.glob('/src/content/articles/zh/*.md');
+
+interface ArticleMeta {
+  title: string;
+  description: string;
+  slug: string;
+  image: string;
+  views: number;
+  date: string;
+}
+
+function getSlug(filePath: string): string {
+  const parts = filePath.replace(/\\/g, '/').split('/');
+  const name = parts.pop() || '';
+  return name.replace(/\.md$/, '');
+}
+
+const sampleArticles: ArticleMeta[] = zhPosts
+  .filter(p => p.frontmatter.categories?.includes('space'))
+  .filter(p => !p.frontmatter.room || p.frontmatter.room === room)
+  .map(post => {
+    const slug = getSlug(post.file);
+    const fm = post.frontmatter;
+    return {
+      title: locale === 'en' && enTitles[slug] ? enTitles[slug] : (fm.title || ''),
+      description: fm.description || '',
+      slug,
+      image: (fm.coverImage as string) || '/og/default.jpg',
+      views: parseInt(String(fm.viewCount || '0'), 10),
+      date: (fm.publishedAt as string) || '',
+    };
+  })
+  .sort((a, b) => {
+    const dc = b.date.localeCompare(a.date);
+    if (dc !== 0) return dc;
+    return b.views - a.views;
+  });
 ---
 
 <Layout>
@@ -53,7 +104,7 @@ const sampleArticles = [
     <div class="article-grid" style="margin-top:1.5rem">
       {sampleArticles.map(a => (
         <article class="card article-card">
-          <img src="/og/default.jpg" alt={a.title} loading="lazy" class="article-card__image" width="600" height="375" />
+          <img src={a.image} alt={a.title} loading="lazy" class="article-card__image" width="600" height="375" />
           <div class="article-card__body">
             <a href={`/${locale}/articles/${a.slug}`} style="color:inherit">
               <h3 class="article-card__title">{a.title}</h3>

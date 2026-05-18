@@ -1,0 +1,58 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import SEOHead from '../../../components/SEOHead.astro';
+import AdSlot from '../../../components/AdSlot.astro';
+import { getTranslations } from '../../../i18n/index';
+import { areaRanges } from '../../../i18n/categories';
+import type { LocaleCode } from '../../../i18n/types';
+
+export function getStaticPaths() {
+  return [{ params: { locale: 'zh' } }, { params: { locale: 'en' } }];
+}
+
+const locale = (Astro.params.locale || 'zh') as LocaleCode;
+const t = getTranslations(locale);
+const isZh = locale === 'zh';
+
+const zhPosts = await Astro.glob('/src/content/articles/zh/*.md');
+
+type CountMap = Record<string, number>;
+const areaCounts: CountMap = {};
+for (const r of areaRanges) {
+  areaCounts[r.slug] = zhPosts.filter(p =>
+    p.frontmatter.categories?.includes('area') &&
+    (!p.frontmatter.areaSize || p.frontmatter.areaSize === r.slug)
+  ).length;
+}
+
+const areaEntries = areaRanges.map(r => ({
+  slug: r.slug,
+  label: isZh ? `${r.min}-${r.max}㎡` : `${r.min}-${r.max} sqm`,
+  count: areaCounts[r.slug] || 0,
+}));
+---
+
+<Layout>
+  <SEOHead
+    title={isZh ? '按面积选择小户型装修方案' : 'Browse by Area'}
+    description={isZh ? '根据房屋面积选择适合的小户型装修方案，从30㎡到90㎡全覆盖。' : 'Find renovation ideas for your home size, from 30sqm to 90+ sqm.'}
+  />
+
+  <div class="container" style="margin-top:2rem">
+    <h1>{isZh ? '按面积选择' : 'Browse by Area'}</h1>
+    <p style="color:var(--text-light);margin-bottom:1.5rem">
+      {isZh ? '根据你的房屋面积找到最合适的装修方案' : 'Find the best renovation ideas for your home size'}
+    </p>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1rem">
+      {areaEntries.map(r => (
+          <a href={`/${locale}/area/${r.slug}`} class="card" style="padding:2rem;text-align:center;text-decoration:none;color:inherit;transition:transform .2s,box-shadow .2s">
+            <div style="font-size:1.5rem;font-weight:700;margin-bottom:.5rem">{r.label}</div>
+            <div style="color:var(--text-light);font-size:.85rem">{isZh ? `${r.count} 篇文章` : `${r.count} articles`}</div>
+          </a>
+        ))}
+    </div>
+
+    <AdSlot type="banner" />
+  </div>
+</Layout>

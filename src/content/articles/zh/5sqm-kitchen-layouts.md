@@ -2,9 +2,10 @@
 title: "5㎡小厨房的7种布局方案（附尺寸图）"
 description: "详细尺寸图+7种厨房布局方案，每一厘米都精打细算。"
 publishedAt: "2026-05-08"
-category: "space"
+categories: ["space", "area"]
 tags: ["厨房", "5㎡", "布局", "收纳"]
-coverImage: "/og/default.jpg"
+room: kitchen
+coverImage: "/images/articles/5sqm-kitchen-layouts.jpg"
 author: "SmallHome"
 ---
 

@@ -1,0 +1,58 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import SEOHead from '../../../components/SEOHead.astro';
+import AdSlot from '../../../components/AdSlot.astro';
+import { getTranslations } from '../../../i18n/index';
+import { styles, styleNames } from '../../../i18n/categories';
+import type { LocaleCode } from '../../../i18n/types';
+
+export function getStaticPaths() {
+  return [{ params: { locale: 'zh' } }, { params: { locale: 'en' } }];
+}
+
+const locale = (Astro.params.locale || 'zh') as LocaleCode;
+const t = getTranslations(locale);
+const isZh = locale === 'zh';
+
+const zhPosts = await Astro.glob('/src/content/articles/zh/*.md');
+
+type CountMap = Record<string, number>;
+const styleCounts: CountMap = {};
+for (const s of styles) {
+  styleCounts[s] = zhPosts.filter(p =>
+    p.frontmatter.categories?.includes('style') &&
+    (!p.frontmatter.styleName || p.frontmatter.styleName === s)
+  ).length;
+}
+
+const styleEntries = styles.map(s => ({
+  slug: s,
+  name: styleNames[s]?.[locale] || s,
+  count: styleCounts[s] || 0,
+}));
+---
+
+<Layout>
+  <SEOHead
+    title={isZh ? '按风格选择装修设计' : 'Browse by Style'}
+    description={isZh ? '浏览不同装修风格：北欧风、日式、现代简约、工业风、奶油风等。' : 'Explore different design styles: Scandinavian, Japandi, Modern, Industrial, Cream and more.'}
+  />
+
+  <div class="container" style="margin-top:2rem">
+    <h1>{isZh ? '按风格选择' : 'Browse by Style'}</h1>
+    <p style="color:var(--text-light);margin-bottom:1.5rem">
+      {isZh ? '选择你喜欢的装修风格' : 'Choose your preferred style'}
+    </p>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1rem">
+      {styleEntries.map(s => (
+          <a href={`/${locale}/style/${s.slug}`} class="card" style="padding:2rem;text-align:center;text-decoration:none;color:inherit;transition:transform .2s,box-shadow .2s">
+            <div style="font-size:1.3rem;font-weight:600;margin-bottom:.5rem">{s.name}</div>
+            <div style="color:var(--text-light);font-size:.85rem">{isZh ? `${s.count} 篇文章` : `${s.count} articles`}</div>
+          </a>
+        ))}
+    </div>
+
+    <AdSlot type="banner" />
+  </div>
+</Layout>
