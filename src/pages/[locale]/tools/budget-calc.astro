@@ -1,0 +1,140 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import SEOHead from '../../../components/SEOHead.astro';
+import AdSlot from '../../../components/AdSlot.astro';
+import { getTranslations } from '../../../i18n/index';
+import type { LocaleCode } from '../../../i18n/types';
+
+export function getStaticPaths() {
+  return [{ params: { locale: 'zh' } }, { params: { locale: 'en' } }];
+}
+
+const locale = (Astro.params.locale || 'zh') as LocaleCode;
+const t = getTranslations(locale);
+const isZh = locale === 'zh';
+
+const M = {
+  electrical: isZh ? '水电改造' : 'Electrical/Plumbing',
+  tiling: isZh ? '泥工贴砖' : 'Tiling',
+  carpentry: isZh ? '木工定制' : 'Carpentry',
+  painting: isZh ? '油漆涂料' : 'Painting',
+  materials: isZh ? '主材采购' : 'Main Materials',
+  furnishing: isZh ? '软装家具' : 'Furnishings',
+  total: isZh ? '合计' : 'Total',
+  tier1: isZh ? '一线城市' : 'Tier 1',
+  tier2: isZh ? '二线城市' : 'Tier 2',
+  tier3: isZh ? '三四线城市' : 'Tier 3-4',
+  item: isZh ? '项目' : 'Item',
+  cost: isZh ? '费用（元）' : 'Cost (RMB)',
+  share: isZh ? '占比' : 'Share',
+  areaInput: isZh ? '房屋面积（㎡）' : 'Floor Area (sqm)',
+  levelLabel: isZh ? '装修档次' : 'Renovation Level',
+  cityLabel: isZh ? '所在城市' : 'City',
+  perSqm: isZh ? '㎡' : 'sqm',
+};
+
+const levels = [
+  { value: 'basic', label: t.tools.basic, pricePerSqm: 600 },
+  { value: 'standard', label: t.tools.standard, pricePerSqm: 1200 },
+  { value: 'premium', label: t.tools.premium, pricePerSqm: 2500 },
+];
+---
+
+<Layout>
+  <SEOHead title={t.tools.budgetCalc} description={isZh ? '免费在线装修预算计算器' : 'Free online renovation budget calculator'} />
+
+  <div class="tool-page">
+    <h1>{t.tools.budgetCalc}</h1>
+    <p style="color:var(--text-light);margin-bottom:1.5rem">{isZh ? '输入房屋信息，快速估算装修预算' : 'Enter your home details for a quick renovation estimate'}</p>
+
+    <div class="tool-form">
+      <div class="form-group">
+        <label>{M.areaInput}</label>
+        <input type="number" id="area" min="10" max="500" value="60" />
+      </div>
+      <div class="form-group">
+        <label>{M.levelLabel}</label>
+        <div style="display:flex;gap:.5rem;flex-wrap:wrap">
+          {levels.map(l => <button class="btn btn-outline level-btn" data-value={l.value} data-price={l.pricePerSqm}>{l.label}<br /><small style="font-weight:400;font-size:.75rem">¥{l.pricePerSqm}/{M.perSqm}</small></button>)}
+        </div>
+      </div>
+      <div class="form-group">
+        <label>{M.cityLabel}</label>
+        <select id="city">
+          <option value="1.2">{M.tier1}</option>
+          <option value="1.0">{M.tier2}</option>
+          <option value="0.8">{M.tier3}</option>
+        </select>
+      </div>
+      <button class="btn btn-primary" style="width:100%;margin-top:.5rem" id="calc-btn">{t.tools.calculate}</button>
+    </div>
+
+    <div class="tool-result" id="result" style="display:none">
+      <h2>{t.tools.result}</h2>
+      <div class="table-wrapper"><table><thead><tr><th>{M.item}</th><th>{M.cost}</th><th>{M.share}</th></tr></thead><tbody id="budget-breakdown"></tbody></table></div>
+      <div id="budget-chart-container"></div>
+      <AdSlot type="inarticle" />
+    </div>
+  </div>
+</Layout>
+
+<script type="application/json" id="_m2">{JSON.stringify(M)}</script>
+<script>
+  var M3 = JSON.parse(document.getElementById('_m2')?.textContent || '{}');
+  var categories = [
+    { label: M3.electrical, color: '#d97706', pct: 10 },
+    { label: M3.tiling, color: '#059669', pct: 15 },
+    { label: M3.carpentry, color: '#3b82f6', pct: 35 },
+    { label: M3.painting, color: '#8b5cf6', pct: 8 },
+    { label: M3.materials, color: '#ec4899', pct: 20 },
+    { label: M3.furnishing, color: '#f59e0b', pct: 12 },
+  ];
+
+  var selectedLevel = 'standard';
+  document.querySelectorAll('.level-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('.level-btn').forEach(function(b) { b.classList.remove('btn-primary'); b.classList.add('btn-outline'); });
+      this.classList.remove('btn-outline'); this.classList.add('btn-primary');
+      selectedLevel = this.dataset.value || 'standard';
+    });
+  });
+  document.querySelector('.level-btn[data-value="standard"]')?.click();
+
+  document.getElementById('calc-btn')?.addEventListener('click', function() {
+    var area = parseFloat(document.getElementById('area').value) || 60;
+    var cityMultiplier = parseFloat(document.getElementById('city').value);
+    var levelPrices = { basic: 600, standard: 1200, premium: 2500 };
+    var pricePerSqm = levelPrices[selectedLevel] || 1200;
+    var total = Math.round(area * pricePerSqm * cityMultiplier);
+    var result = document.getElementById('result');
+    result.style.display = '';
+
+    var tbody = document.getElementById('budget-breakdown');
+    tbody.innerHTML = categories.map(function(c) {
+      var amount = Math.round(total * c.pct / 100);
+      return '<tr><td><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:' + c.color + ';margin-right:6px"></span>' + c.label + '</td><td>' + amount.toLocaleString() + '</td><td>' + c.pct + '%</td></tr>';
+    }).join('') + '<tr style="font-weight:700"><td>' + M3.total + '</td><td>' + total.toLocaleString() + '</td><td>100%</td></tr>';
+
+    var container = document.getElementById('budget-chart-container');
+    container.innerHTML = '<canvas id="budget-pie" width="200" height="200" style="max-width:200px;display:block;margin:1rem auto"></canvas>' +
+      '<div style="text-align:center;font-size:.9rem;margin-top:.5rem">' +
+      categories.map(function(c) {
+        var amount = Math.round(total * c.pct / 100);
+        return '<span style="display:inline-block;margin:0 .5rem"><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:' + c.color + ';margin-right:4px"></span>' + c.label + ': ' + amount.toLocaleString() + '</span>';
+      }).join('') + '</div>';
+
+    var canvas = document.getElementById('budget-pie');
+    var ctx = canvas.getContext('2d');
+    var dpr = window.devicePixelRatio || 1;
+    canvas.width = 200 * dpr; canvas.height = 200 * dpr; ctx.scale(dpr, dpr);
+    var cx = 100, cy = 100, r = 85, angle = -Math.PI / 2;
+    categories.forEach(function(c) {
+      var slice = (c.pct / 100) * Math.PI * 2;
+      ctx.beginPath(); ctx.moveTo(cx, cy); ctx.arc(cx, cy, r, angle, angle + slice); ctx.closePath();
+      ctx.fillStyle = c.color; ctx.fill(); ctx.strokeStyle = '#fff'; ctx.lineWidth = 1.5; ctx.stroke();
+      angle += slice;
+    });
+    ctx.beginPath(); ctx.arc(cx, cy, r * .5, 0, Math.PI * 2); ctx.fillStyle = '#fff'; ctx.fill();
+    result.scrollIntoView({ behavior: 'smooth' });
+  });
+</script>

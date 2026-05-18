@@ -1,0 +1,22 @@
+---
+import Layout from '../layouts/Layout.astro';
+import LoginModal from '../components/LoginModal.astro';
+
+const mode = Astro.url.searchParams.get('mode') === 'register' ? 'register' : 'login';
+---
+
+<Layout>
+  <div class="container" style="display:flex;align-items:center;justify-content:center;min-height:60vh">
+    <LoginModal locale="zh" mode={mode} />
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var modal = document.getElementById('auth-modal');
+      if (modal) {
+        modal.style.display = 'flex';
+        modal.style.position = 'static';
+        modal.style.background = 'transparent';
+      }
+    });
+  </script>
+</Layout>

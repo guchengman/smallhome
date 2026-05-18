@@ -1,0 +1,184 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getTranslations } from '../../i18n/index';
+import type { LocaleCode } from '../../i18n/types';
+
+export const prerender = false;
+
+const locale = (Astro.params.locale || 'zh') as LocaleCode;
+const t = getTranslations(locale);
+const isZh = locale === 'zh';
+
+const M = {
+  loginFirst: isZh ? '请先登录' : 'Please login first',
+  draftSaved: isZh ? '草稿已保存' : 'Draft saved',
+  fillFields: isZh ? '请填写标题、摘要和正文' : 'Please fill in title, description, and content',
+  submitOk: isZh ? '投稿已提交审核！' : 'Submitted for review!',
+  editTab: isZh ? '编辑' : 'Edit',
+  previewTab: isZh ? '预览' : 'Preview',
+  placeholder: isZh ? '开始用 Markdown 写作...\n\n## 标题\n\n正文内容...' : 'Start writing in Markdown...\n\n## Heading\n\nContent...',
+  previewEmpty: isZh ? '预览区域' : 'Preview area',
+  titlePlaceholder: isZh ? '输入文章标题...' : 'Enter article title...',
+  descPlaceholder: isZh ? '简短描述文章内容...' : 'Briefly describe the article...',
+  tagsPlaceholder: isZh ? '标签，逗号分隔' : 'Tags, comma separated',
+  chineseLabel: isZh ? '中文' : 'Chinese',
+  charsLabel: isZh ? '字' : 'chars',
+};
+
+const categories = [
+  { value: 'area', label: t.categories.area },
+  { value: 'space', label: t.categories.space },
+  { value: 'style', label: t.categories.style },
+  { value: 'budget', label: t.categories.budget },
+  { value: 'tips', label: t.categories.tips },
+  { value: 'gallery', label: t.categories.gallery },
+];
+---
+
+<Layout>
+  <link rel="stylesheet" href="/src/styles/editor.css" />
+  <div style="max-width:var(--container);margin:0 auto;padding:0 1rem">
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:.75rem 0">
+      <h1 style="font-size:1.3rem">{t.editor.title}</h1>
+      <div style="display:flex;gap:.5rem">
+        <button class="btn btn-outline" id="save-draft-btn">{t.editor.saveDraft}</button>
+        <button class="btn btn-primary" id="submit-btn">{t.editor.submitReview}</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="editor-meta">
+    <div class="form-group"><label>{t.editor.titleLabel} *</label><input type="text" id="article-title" placeholder={M.titlePlaceholder} /></div>
+    <div class="form-group"><label>{t.editor.descLabel} *</label><input type="text" id="article-desc" maxlength="160" placeholder={M.descPlaceholder} /></div>
+    <div class="form-group"><label>{t.editor.categoryLabel} *</label><select id="article-category">{categories.map(c => <option value={c.value}>{c.label}</option>)}</select></div>
+    <div class="form-group"><label>{t.editor.tagsLabel}</label><input type="text" id="article-tags" placeholder={M.tagsPlaceholder} /></div>
+    <div class="form-group"><label>{t.editor.coverLabel}</label><input type="url" id="article-cover" placeholder="https://..." /></div>
+    <div class="form-group"><label>{t.editor.localeLabel}</label><select id="article-locale"><option value="zh">{M.chineseLabel}</option><option value="en">English</option></select></div>
+  </div>
+
+  <div class="editor-switcher">
+    <button class="btn btn-outline active" id="edit-tab">{M.editTab}</button>
+    <button class="btn btn-outline" id="preview-tab">{M.previewTab}</button>
+  </div>
+  <div class="editor-layout edit-mode" id="editor-layout">
+    <div class="editor-pane">
+      <div class="editor-toolbar">
+        <button title="Bold" data-action="bold"><strong>B</strong></button>
+        <button title="Italic" data-action="italic"><em>I</em></button>
+        <button title="Heading" data-action="heading">H</button>
+        <button title="Link" data-action="link">&lt;a&gt;</button>
+        <button title="Image" data-action="image">&#x1F5BC;</button>
+        <button title="List" data-action="list">&#x2261;</button>
+        <button title="Code" data-action="code">&lt;/&gt;</button>
+        <button title="Table" data-action="table">&#x229E;</button>
+        <button title="Quote" data-action="quote">&#x275D;</button>
+      </div>
+      <textarea id="editor-textarea" placeholder={M.placeholder}></textarea>
+      <div style="padding:.5rem 1rem;font-size:.8rem;color:var(--text-light);border-top:1px solid var(--border)">
+        <span id="word-count">0</span> {M.charsLabel}
+      </div>
+    </div>
+    <div class="preview-pane" id="preview-pane">
+      <p style="color:var(--text-light)">{M.previewEmpty}</p>
+    </div>
+  </div>
+</Layout>
+
+<script type="application/json" id="_m">{JSON.stringify(M)}</script>
+<script>
+  var M2 = JSON.parse(document.getElementById('_m')?.textContent || '{}');
+  var textarea = document.getElementById('editor-textarea');
+  var preview = document.getElementById('preview-pane');
+  var wordCount = document.getElementById('word-count');
+  var currentDraftId = null;
+
+  textarea?.addEventListener('input', function() {
+    wordCount.textContent = textarea.value.length.toString();
+    var text = textarea.value;
+    var html = '<p>' + text
+      .replace(/^### (.+)$/gm, '<h3>$1</h3>')
+      .replace(/^## (.+)$/gm, '<h2>$1</h2>')
+      .replace(/^# (.+)$/gm, '<h1>$1</h1>')
+      .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+      .replace(/\*(.+?)\*/g, '<em>$1</em>')
+      .replace(/\n\n/g, '</p><p>')
+      .replace(/^- (.+)$/gm, '<li>$1</li>') + '</p>';
+    html = html.replace(/<p><(h[123])>/g, '<$1>').replace(/<\/(h[123])><\/p>/g, '</$1>');
+    preview.innerHTML = html || '<p style="color:var(--text-light)">' + M2.previewEmpty + '</p>';
+  });
+
+  document.querySelectorAll('.editor-toolbar button').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var action = this.dataset.action;
+      var ta = textarea;
+      var start = ta.selectionStart, end = ta.selectionEnd;
+      var selected = ta.value.substring(start, end);
+      var wrappers = { bold: ['**','**'], italic: ['*','*'], heading: ['\n## ',''], link: ['[','](url)'], image: ['![alt](',')'], code: ['`','`'], quote: ['\n> ',''], list: ['\n- ',''], table: ['\n| Col1 | Col2 |\n|-----|-----|\n| ',' |'] };
+      var w = wrappers[action || ''] || ['',''];
+      ta.value = ta.value.substring(0, start) + w[0] + (selected || 'text') + w[1] + ta.value.substring(end);
+      ta.focus();
+      ta.dispatchEvent(new Event('input'));
+    });
+  });
+
+  document.getElementById('edit-tab')?.addEventListener('click', function() {
+    document.getElementById('editor-layout')?.classList.remove('preview-mode');
+    document.getElementById('editor-layout')?.classList.add('edit-mode');
+    this.classList.add('active');
+    document.getElementById('preview-tab')?.classList.remove('active');
+  });
+  document.getElementById('preview-tab')?.addEventListener('click', function() {
+    document.getElementById('editor-layout')?.classList.remove('edit-mode');
+    document.getElementById('editor-layout')?.classList.add('preview-mode');
+    this.classList.add('active');
+    document.getElementById('edit-tab')?.classList.remove('active');
+  });
+
+  document.getElementById('save-draft-btn')?.addEventListener('click', async function() {
+    var token = localStorage.getItem('token');
+    if (!token) return alert(M2.loginFirst);
+    var res = await fetch('/api/articles/draft', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + token },
+      body: JSON.stringify({
+        id: currentDraftId,
+        title: document.getElementById('article-title').value,
+        description: document.getElementById('article-desc').value,
+        contentMd: textarea.value,
+        category: document.getElementById('article-category').value,
+        tags: document.getElementById('article-tags').value.split(',').map(function(t){return t.trim();}).filter(Boolean),
+        coverImage: document.getElementById('article-cover').value,
+        locale: document.getElementById('article-locale').value,
+      }),
+    });
+    var data = await res.json();
+    if (!res.ok) return alert(data.error);
+    currentDraftId = data.id;
+    alert(M2.draftSaved);
+  });
+
+  document.getElementById('submit-btn')?.addEventListener('click', async function() {
+    var token = localStorage.getItem('token');
+    if (!token) return alert(M2.loginFirst);
+    var title = document.getElementById('article-title').value.trim();
+    var description = document.getElementById('article-desc').value.trim();
+    var contentMd = textarea.value.trim();
+    if (!title || !description || !contentMd) return alert(M2.fillFields);
+
+    var res = await fetch('/api/articles/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + token },
+      body: JSON.stringify({
+        title: title, description: description, contentMd: contentMd,
+        category: document.getElementById('article-category').value,
+        tags: document.getElementById('article-tags').value.split(',').map(function(t){return t.trim();}).filter(Boolean),
+        coverImage: document.getElementById('article-cover').value || null,
+        locale: document.getElementById('article-locale').value,
+      }),
+    });
+    var data = await res.json();
+    if (!res.ok) return alert(data.error);
+    alert(M2.submitOk);
+    location.href = '/account/submissions';
+  });
+</script>

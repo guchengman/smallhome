@@ -1,0 +1,13 @@
+{
+  "name": "小家装修指南 SmallHome",
+  "short_name": "SmallHome",
+  "description": "数据驱动的小户型空间利用指南",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#fefbf6",
+  "theme_color": "#d97706",
+  "icons": [
+    { "src": "/og/default.jpg", "sizes": "192x192", "type": "image/jpeg" },
+    { "src": "/og/default.jpg", "sizes": "512x512", "type": "image/jpeg" }
+  ]
+}

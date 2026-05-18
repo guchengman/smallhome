@@ -1,0 +1,35 @@
+name = "smallhome"
+compatibility_date = "2025-01-01"
+compatibility_flags = ["nodejs_compat"]
+main = "dist/_worker.js/index.js"
+
+[assets]
+directory = "./dist/"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "smallhome-db"
+database_id = "smallhome-db-dev"
+
+[[kv_namespaces]]
+binding = "SESSION"
+id = "smallhome-session-dev"
+
+[env.production]
+[[env.production.routes]]
+pattern = "smallhome.top/*"
+zone_id = "9ce5589d9f31f9d21df6c7267eb59be0"
+
+[[env.production.routes]]
+pattern = "www.smallhome.top/*"
+zone_id = "9ce5589d9f31f9d21df6c7267eb59be0"
+
+[[env.production.d1_databases]]
+binding = "DB"
+database_name = "smallhome-db"
+database_id = "d1b08e12-c2ab-473f-a4c5-f7f6f1fbd239"
+
+[[env.production.kv_namespaces]]
+binding = "SESSION"
+id = "61d17caf8cb740a3ae5de1548f3e397d"
+

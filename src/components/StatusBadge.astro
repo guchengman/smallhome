@@ -1,0 +1,14 @@
+---
+interface Props {
+  status: 'draft' | 'pending' | 'published' | 'rejected';
+}
+
+const labels: Record<string, string> = {
+  draft: '草稿',
+  pending: '审核中',
+  published: '已发布',
+  rejected: '已驳回',
+};
+---
+
+<span class={`badge badge-${status}`}>{labels[status] || status}</span>

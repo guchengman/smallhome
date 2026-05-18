@@ -1,0 +1,112 @@
+/* Markdown Editor */
+.editor-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  height: calc(100vh - var(--nav-height));
+}
+@media (max-width: 768px) {
+  .editor-layout { grid-template-columns: 1fr; }
+  .editor-layout.preview-mode .editor-pane { display: none; }
+  .editor-layout.edit-mode .preview-pane { display: none; }
+  .editor-switcher { display: flex !important; }
+}
+
+.editor-switcher {
+  display: none;
+  gap: .5rem;
+  padding: .5rem;
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border);
+}
+
+.editor-pane, .preview-pane {
+  overflow-y: auto;
+  border: 1px solid var(--border);
+}
+.editor-pane textarea {
+  width: 100%;
+  height: 100%;
+  min-height: 400px;
+  padding: 1.25rem;
+  border: none;
+  resize: none;
+  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+  font-size: .9rem;
+  line-height: 1.8;
+  background: var(--bg-card);
+  outline: none;
+}
+.preview-pane {
+  padding: 1.25rem;
+  background: #fafaf9;
+}
+
+/* Editor toolbar */
+.editor-toolbar {
+  display: flex;
+  gap: 2px;
+  padding: .5rem;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-card);
+  flex-wrap: wrap;
+}
+.editor-toolbar button {
+  width: 36px; height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  cursor: pointer;
+  font-size: .85rem;
+  color: var(--text-light);
+  transition: all .15s;
+}
+.editor-toolbar button:hover {
+  background: var(--primary-bg);
+  color: var(--primary);
+  border-color: var(--border);
+}
+
+/* Editor metadata form */
+.editor-meta {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .75rem;
+  padding: 1rem;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+}
+@media (max-width: 480px) {
+  .editor-meta { grid-template-columns: 1fr; }
+}
+
+/* Import panel */
+.import-panel {
+  max-width: 640px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+}
+.import-tabs {
+  display: flex;
+  gap: 0;
+  border-bottom: 2px solid var(--border);
+  margin-bottom: 1.5rem;
+}
+.import-tabs button {
+  padding: .6rem 1.2rem;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: .9rem;
+  color: var(--text-light);
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  transition: all .15s;
+}
+.import-tabs button.active {
+  color: var(--primary);
+  border-bottom-color: var(--primary);
+}

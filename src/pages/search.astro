@@ -1,0 +1,99 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getTranslations } from '../i18n/index';
+import type { LocaleCode } from '../i18n/types';
+
+const locale: LocaleCode = 'zh';
+const t = getTranslations(locale);
+const query = Astro.url.searchParams.get('q') || '';
+
+// Load all content articles for searching
+const allContent = import.meta.glob('/src/content/articles/**/*.md', { eager: true, query: '?raw' });
+const articles = Object.entries(allContent).map(([key, mod]) => {
+  const raw = (mod as { default: string })?.default || '';
+  const match = raw.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
+  if (!match) return null;
+  const fm: Record<string, string> = {};
+  for (const line of match[1].split('\n')) {
+    const idx = line.indexOf(':');
+    if (idx > 0) {
+      let val = line.slice(idx + 1).trim();
+      if ((val.startsWith('"') && val.endsWith('"')) || (val.startsWith("'") && val.endsWith("'"))) val = val.slice(1, -1);
+      fm[line.slice(0, idx).trim()] = val;
+    }
+  }
+  const slugMatch = key.match(/(?:zh|en)\/(.+)\.md$/);
+  return {
+    title: fm.title || '',
+    description: fm.description || '',
+    category: fm.category || '',
+    slug: slugMatch ? slugMatch[1] : '',
+    locale: key.includes('/en/') ? 'en' : 'zh',
+    body: match[2].slice(0, 200),
+  };
+}).filter(Boolean);
+
+const searchResults = query
+  ? articles.filter(a =>
+      a.title.toLowerCase().includes(query.toLowerCase()) ||
+      a.description.toLowerCase().includes(query.toLowerCase()) ||
+      a.body.toLowerCase().includes(query.toLowerCase())
+    )
+  : [];
+---
+
+<Layout>
+  <div class="container" style="margin-top:2rem;min-height:50vh">
+    <h1>{t.nav.search}</h1>
+    <div class="hero__search" style="margin:1rem 0;max-width:560px">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input type="search" id="search-input" value={query} placeholder={t.home.searchPlaceholder} />
+    </div>
+    <div id="search-results">
+      {query && searchResults.length > 0
+        ? searchResults.map(a => `
+          <div class="card" style="padding:1.25rem;margin-top:.75rem">
+            <a href="/${a.locale}/articles/${a.slug}" style="font-weight:600;font-size:1.05rem">${a.title}</a>
+            <p style="color:var(--text-light);font-size:.85rem;margin-top:.3rem">${a.description}</p>
+            <span class="tag" style="margin-top:.5rem">${t.categories[a.category] || a.category}</span>
+          </div>
+        `).join('')
+        : query ? '<p style="color:var(--text-light);text-align:center;margin-top:3rem">' + t.common.noResults + '</p>'
+        : '<p style="color:var(--text-light);text-align:center;margin-top:3rem">' + t.home.searchPlaceholder + '...</p>'
+      }
+    </div>
+  </div>
+
+  <script type="application/json" id="_search-data">{JSON.stringify(searchResults)}</script>
+  <script>
+    var input = document.getElementById('search-input');
+    var results = document.getElementById('search-results');
+    var allArticles = JSON.parse(document.getElementById('_search-data')?.textContent || '[]');
+    var debounceTimer;
+
+    input?.addEventListener('input', function() {
+      clearTimeout(debounceTimer);
+      var q = input.value.trim().toLowerCase();
+      if (!q) {
+        results.innerHTML = '<p style="color:var(--text-light);text-align:center;margin-top:3rem">输入关键词搜索装修灵感...</p>';
+        return;
+      }
+
+      debounceTimer = setTimeout(function() {
+        var filtered = allArticles.filter(function(a) {
+          return a.title.toLowerCase().indexOf(q) >= 0 ||
+                 a.description.toLowerCase().indexOf(q) >= 0;
+        });
+
+        if (filtered.length === 0) {
+          results.innerHTML = '<p style="color:var(--text-light);text-align:center;margin-top:3rem">没有找到相关结果</p>';
+          return;
+        }
+
+        results.innerHTML = filtered.map(function(a) {
+          return '<div class="card" style="padding:1.25rem;margin-top:.75rem"><a href="/' + a.locale + '/articles/' + a.slug + '" style="font-weight:600;font-size:1.05rem">' + a.title + '</a><p style="color:var(--text-light);font-size:.85rem;margin-top:.3rem">' + a.description + '</p><span class="tag" style="margin-top:.5rem">' + a.category + '</span></div>';
+        }).join('');
+      }, 300);
+    });
+  </script>
+</Layout>

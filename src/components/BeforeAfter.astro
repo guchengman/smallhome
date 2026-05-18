@@ -1,0 +1,57 @@
+---
+interface Props {
+  beforeImg: string;
+  afterImg: string;
+  beforeLabel?: string;
+  afterLabel?: string;
+  alt?: string;
+}
+
+const {
+  beforeImg,
+  afterImg,
+  beforeLabel = '装修前 Before',
+  afterLabel = '装修后 After',
+  alt = '装修前后对比',
+} = Astro.props;
+---
+
+<div class="compare-slider" role="img" aria-label={alt} style="position:relative;overflow:hidden;border-radius:var(--radius-md)">
+  <img src={afterImg} alt={afterLabel} loading="lazy" style="width:100%;display:block" />
+  <div class="compare-before" id={`compare-before-${beforeImg.replace(/[^a-zA-Z0-9]/g,'')}`}>
+    <img src={beforeImg} alt={beforeLabel} loading="lazy" style="width:100%;min-width:100%" />
+  </div>
+  <span class="compare-label compare-label--before">{beforeLabel}</span>
+  <span class="compare-label compare-label--after">{afterLabel}</span>
+</div>
+
+<script>
+  (function() {
+    const sliders = document.querySelectorAll('.compare-slider');
+    sliders.forEach(slider => {
+      const before = slider.querySelector('.compare-before');
+      if (!before) return;
+      const handle = document.createElement('div');
+      handle.className = 'compare-handle';
+      handle.style.left = '50%';
+      before.style.clipPath = 'inset(0 50% 0 0)';
+      slider.appendChild(handle);
+
+      let dragging = false;
+      const move = (clientX: number) => {
+        const rect = slider.getBoundingClientRect();
+        const x = Math.max(0, Math.min(clientX - rect.left, rect.width));
+        const pct = (x / rect.width) * 100;
+        handle.style.left = pct + '%';
+        before.style.clipPath = `inset(0 ${100 - pct}% 0 0)`;
+      };
+
+      handle.addEventListener('mousedown', (e) => { e.preventDefault(); dragging = true; });
+      handle.addEventListener('touchstart', (e) => { e.preventDefault(); dragging = true; });
+      window.addEventListener('mousemove', (e) => { if (dragging) { e.preventDefault(); move(e.clientX); } });
+      window.addEventListener('touchmove', (e) => { if (dragging) { e.preventDefault(); move(e.touches[0].clientX); } });
+      window.addEventListener('mouseup', () => { dragging = false; });
+      window.addEventListener('touchend', () => { dragging = false; });
+    });
+  })();
+</script>

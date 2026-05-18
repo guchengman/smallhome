@@ -1,0 +1,195 @@
+---
+export const prerender = false;
+
+import Layout from '../../../layouts/Layout.astro';
+import SEOHead from '../../../components/SEOHead.astro';
+import AdSlot from '../../../components/AdSlot.astro';
+import TableOfContents from '../../../components/TableOfContents.astro';
+import { getTranslations } from '../../../i18n/index';
+import { estimateReadingTime } from '../../../i18n/utils';
+import type { LocaleCode } from '../../../i18n/types';
+
+const { locale, slug } = Astro.params;
+const t = getTranslations(locale as LocaleCode);
+const isZh = locale === 'zh';
+const articleSlug = slug || 'sample';
+
+// Load content from markdown files
+const allContent = import.meta.glob('/src/content/articles/**/*.md', { eager: true, query: '?raw' });
+const contentKey = Object.keys(allContent).find(
+  key => key.endsWith(`/${locale}/${articleSlug}.md`) || key.endsWith(`/zh/${articleSlug}.md`),
+);
+const contentRaw = contentKey ? (allContent[contentKey] as { default: string })?.default || '' : '';
+const frontmatterMatch = contentRaw.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
+const frontmatter: Record<string, string> = {};
+let bodyMd = '';
+
+if (frontmatterMatch) {
+  const fmLines = frontmatterMatch[1].split('\n');
+  for (const line of fmLines) {
+    const idx = line.indexOf(':');
+    if (idx > 0) {
+      const key = line.slice(0, idx).trim();
+      let val = line.slice(idx + 1).trim();
+      if (val.startsWith('"') && val.endsWith('"')) val = val.slice(1, -1);
+      if (val.startsWith("'") && val.endsWith("'")) val = val.slice(1, -1);
+      frontmatter[key] = val;
+    }
+  }
+  bodyMd = frontmatterMatch[2].trim();
+}
+
+// Parse tags from frontmatter
+function parseTags(raw: string | undefined): string[] {
+  if (!raw) return [];
+  try { return JSON.parse(raw); } catch { return raw.split(',').map(s => s.trim()).filter(Boolean); }
+}
+
+const article = frontmatter.title ? {
+  title: frontmatter.title || '',
+  description: frontmatter.description || '',
+  category: frontmatter.category || 'area',
+  tags: parseTags(frontmatter.tags),
+  author: frontmatter.author || 'SmallHome',
+  publishedAt: frontmatter.publishedAt || '',
+  updatedAt: frontmatter.updatedAt || '',
+  coverImage: frontmatter.coverImage || '/og/default.jpg',
+  viewCount: parseInt(frontmatter.viewCount || '0'),
+} : {
+  title: isZh ? '30㎡住3口人，怎么做到的？' : 'How a Family of 3 Lives Comfortably in 30sqm',
+  description: isZh
+    ? '一个30平米的小家，通过精妙的空间设计实现了两室一厅的居住需求。'
+    : 'Achieving 2 bedrooms and a living room in just 30sqm through clever design.',
+  category: 'area',
+  tags: isZh ? ['小户型', '30㎡', '空间改造', '收纳'] : ['small apartment', '30sqm', 'space saving'],
+  author: 'SmallHome',
+  publishedAt: '2026-05-10',
+  updatedAt: '2026-05-12',
+  coverImage: '/og/default.jpg',
+  viewCount: 12580,
+};
+
+// Convert basic Markdown body to HTML
+function mdToHtml(md: string): string {
+  let html = md
+    .replace(/^### (.+)$/gm, '<h3 id="$1">$1</h3>')
+    .replace(/^## (.+)$/gm, '<h2 id="section-$1">$1</h2>')
+    .replace(/^# (.+)$/gm, '<h1>$1</h1>')
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*(.+?)\*/g, '<em>$1</em>')
+    .replace(/^> (.+)$/gm, '<blockquote>$1</blockquote>')
+    .replace(/^- (.+)$/gm, '<li>$1</li>')
+    .replace(/^(\d+)\. (.+)$/gm, '<li>$2</li>')
+    .replace(/\n\n/g, '</p><p>')
+    .replace(/\n/g, '<br/>');
+  // Wrap consecutive <li> in <ul>
+  html = html.replace(/((?:<li>.*?<\/li><br\/?>?)+)/g, '<ul>$1</ul>');
+  // Clean up paragraph wrapping around block elements
+  html = html.replace(/<p><ul>/g, '<ul>').replace(/<\/ul><\/p>/g, '</ul>');
+  html = html.replace(/<p><blockquote>/g, '<blockquote>').replace(/<\/blockquote><\/p>/g, '</blockquote>');
+  html = html.replace(/<br\/?><\/(li|ul|h[1-6]|blockquote)>/g, '</$1>');
+  return '<p>' + html + '</p>';
+}
+
+// Extract headings for TOC
+function extractHeadings(md: string): Array<{ depth: number; slug: string; text: string }> {
+  const headings: Array<{ depth: number; slug: string; text: string }> = [];
+  const lines = md.split('\n');
+  for (const line of lines) {
+    const match = line.match(/^(##+)\s+(.+)$/);
+    if (match) {
+      const text = match[2];
+      const slug = text.toLowerCase().replace(/[^\w一-鿿]+/g, '-').replace(/^-|-$/g, '');
+      headings.push({ depth: match[1].length, slug: 'section-' + text, text });
+    }
+  }
+  return headings;
+}
+
+const contentHtml = bodyMd ? mdToHtml(bodyMd) : `<h2 id="section-1">${article.title}</h2><p>${isZh ? '内容加载中...' : 'Content loading...'}</p>`;
+const headings = bodyMd ? extractHeadings(bodyMd) : [];
+const readingTime = bodyMd ? estimateReadingTime(bodyMd, (locale as LocaleCode) || 'zh') : 5;
+const relatedArticles = [
+  { title: isZh ? '5㎡小厨房的7种布局方案' : '7 Layout Ideas for a 5sqm Kitchen', slug: '5sqm-kitchen-layouts', views: 7650 },
+  { title: isZh ? '小户型收纳翻倍的10个细节' : '10 Details to Double Storage', slug: 'japandi-storage', views: 11200 },
+];
+---
+
+<Layout>
+  <SEOHead
+    title={article.title}
+    description={article.description}
+    type="article"
+    publishedAt={article.publishedAt}
+    updatedAt={article.updatedAt}
+    author={article.author}
+    tags={article.tags}
+    image={article.coverImage}
+  />
+
+  <div class="article-detail">
+    <article>
+      <header style="margin-bottom:1.5rem">
+        <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.75rem">
+          <span class="tag">{t.categories[article.category] || article.category}</span>
+          {article.tags.map(tag => <span class="tag">{tag}</span>)}
+        </div>
+        <h1>{article.title}</h1>
+        <div style="display:flex;gap:1rem;color:var(--text-light);font-size:.85rem;margin-top:.75rem;flex-wrap:wrap">
+          <span>{t.article.author}: {article.author}</span>
+          <span>{t.article.publishedAt}: {article.publishedAt}</span>
+          <span>{readingTime} {t.article.readingTime}</span>
+          <span>{article.viewCount.toLocaleString()} {t.article.views}</span>
+        </div>
+      </header>
+
+      <img src={article.coverImage} alt={article.title} style="width:100%;border-radius:var(--radius-md);margin-bottom:1.5rem;aspect-ratio:16/9;object-fit:cover" />
+
+      <div class="article-content" set:html={contentHtml} />
+
+      <div style="display:flex;gap:.75rem;margin-top:2rem;padding-top:1.5rem;border-top:1px solid var(--border);align-items:center">
+        <button class="btn btn-outline" id="fav-btn">{t.article.favorite}</button>
+        <span style="font-size:.85rem;color:var(--text-light)">{t.article.shareTitle}</span>
+      </div>
+
+      <div style="background:var(--primary-bg);border-radius:var(--radius-md);padding:1.25rem;text-align:center;margin-top:1.5rem">
+        <p style="font-weight:500;margin-bottom:.5rem">{t.article.registerCta}</p>
+        <a href="/login?mode=register" class="btn btn-primary">{t.nav.register}</a>
+      </div>
+
+      <section class="related">
+        <h2>{t.article.relatedArticles}</h2>
+        <div class="related__grid">
+          {relatedArticles.map(ra => (
+            <div class="card" style="padding:1rem">
+              <a href={`/${locale}/articles/${ra.slug}`} style="font-weight:500;font-size:.95rem">{ra.title}</a>
+              <p style="font-size:.8rem;color:var(--text-light);margin-top:.3rem">{ra.views.toLocaleString()} {t.article.views}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+    </article>
+
+    <aside class="sidebar">
+      <TableOfContents headings={headings} />
+      <div class="sidebar__section">
+        <h4 class="sidebar__title">{isZh ? '热门文章' : 'Popular'}</h4>
+        <ul class="sidebar__list">
+          {relatedArticles.map(ra => (
+            <li><a href={`/${locale}/articles/${ra.slug}`}>{ra.title}</a></li>
+          ))}
+        </ul>
+      </div>
+      <AdSlot type="sidebar" />
+      <div class="sidebar__section">
+        <h4 class="sidebar__title">{t.tools.budgetCalc}</h4>
+        <p style="font-size:.85rem;color:var(--text-light);margin-bottom:.75rem">
+          {isZh ? '快速估算你的装修预算' : 'Quickly estimate your renovation budget'}
+        </p>
+        <a href={`/${locale}/tools/budget-calc`} class="btn btn-primary" style="width:100%">
+          {t.tools.calculate}
+        </a>
+      </div>
+    </aside>
+  </div>
+</Layout>

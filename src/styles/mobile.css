@@ -1,0 +1,122 @@
+/* Mobile-first responsive utilities */
+@media (max-width: 480px) {
+  :root { --container-padding: .75rem; }
+  .container { padding: 0 var(--container-padding); }
+  .hide-xs { display: none !important; }
+}
+
+@media (max-width: 768px) {
+  .hide-sm { display: none !important; }
+  .two-col { grid-template-columns: 1fr !important; }
+}
+
+@media (max-width: 1024px) {
+  .hide-md { display: none !important; }
+}
+
+/* Bottom navigation for mobile */
+.bottom-nav {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: var(--bottom-nav-height);
+  background: var(--bg-card);
+  border-top: 1px solid var(--border);
+  z-index: 100;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+@media (max-width: 768px) {
+  .bottom-nav { display: flex; }
+  body { padding-bottom: var(--bottom-nav-height); }
+}
+.bottom-nav a {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: .7rem;
+  color: var(--text-light);
+  gap: 2px;
+}
+.bottom-nav a[aria-current] { color: var(--primary); }
+.bottom-nav svg { width: 22px; height: 22px; }
+
+/* Reading progress bar */
+.reading-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  background: var(--primary);
+  z-index: 200;
+  transition: width .1s linear;
+}
+
+/* Mobile hamburger */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  min-width: 44px;
+  min-height: 44px;
+}
+.hamburger span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--text);
+  transition: all .3s;
+}
+@media (max-width: 768px) {
+  .hamburger { display: flex; }
+}
+
+/* Mobile menu overlay */
+.mobile-menu {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,.5);
+  z-index: 150;
+}
+.mobile-menu.open { display: block; }
+.mobile-menu__panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: min(300px, 80vw);
+  height: 100%;
+  background: var(--bg-card);
+  padding: 1.5rem;
+  overflow-y: auto;
+  animation: slideIn .25s ease;
+}
+@keyframes slideIn {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+/* Table responsive */
+.table-wrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+@media (max-width: 480px) {
+  .table-wrapper td:first-child,
+  .table-wrapper th:first-child {
+    position: sticky;
+    left: 0;
+    background: var(--bg-card);
+    z-index: 1;
+  }
+}

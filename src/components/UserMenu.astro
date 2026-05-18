@@ -1,0 +1,54 @@
+---
+interface Props {
+  username?: string;
+  role?: string;
+  locale?: string;
+}
+
+const { username, role = 'user', locale = 'zh' } = Astro.props;
+const isZh = locale === 'zh';
+---
+
+<!-- User dropdown menu (shown when logged in) -->
+<div id="user-menu" style="display:none;position:relative">
+  <button class="btn btn-ghost" id="user-menu-toggle" style="gap:.4rem">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    <span class="hide-xs" id="user-menu-name">{username || ''}</span>
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+  </button>
+  <div id="user-dropdown" style="display:none;position:absolute;top:100%;right:0;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-lg);min-width:160px;padding:.4rem;z-index:110">
+    <a href={`/${locale === 'en' ? 'en/' : ''}account/`} style="display:block;padding:.5rem .75rem;color:var(--text);border-radius:var(--radius-sm)">
+      {isZh ? '个人中心' : 'Account'}
+    </a>
+    <a href={`/${locale === 'en' ? 'en/' : ''}editor/`} style="display:block;padding:.5rem .75rem;color:var(--text);border-radius:var(--radius-sm)">
+      {isZh ? '写文章' : 'Write Article'}
+    </a>
+    {(role === 'editor' || role === 'admin') && (
+      <a href={`/${locale === 'en' ? 'en/' : ''}admin/`} style="display:block;padding:.5rem .75rem;color:var(--text);border-radius:var(--radius-sm)">
+        {isZh ? '审核后台' : 'Review'}
+      </a>
+    )}
+    <hr style="margin:.3rem 0;border-color:var(--border)" />
+    <a href="#" id="logout-btn" style="display:block;padding:.5rem .75rem;color:#dc2626;border-radius:var(--radius-sm)">
+      {isZh ? '退出登录' : 'Logout'}
+    </a>
+  </div>
+</div>
+
+<script>
+  const toggle = document.getElementById('user-menu-toggle');
+  const dropdown = document.getElementById('user-dropdown');
+  toggle?.addEventListener('click', () => {
+    dropdown!.style.display = dropdown!.style.display === 'none' ? '' : 'none';
+  });
+  document.addEventListener('click', (e) => {
+    if (!document.getElementById('user-menu')?.contains(e.target as Node)) {
+      if (dropdown) dropdown.style.display = 'none';
+    }
+  });
+  document.getElementById('logout-btn')?.addEventListener('click', (e) => {
+    e.preventDefault();
+    localStorage.removeItem('token');
+    location.reload();
+  });
+</script>

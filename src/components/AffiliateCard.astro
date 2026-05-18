@@ -1,0 +1,20 @@
+---
+interface Props {
+  title: string;
+  image: string;
+  price: string;
+  link: string;
+  platform?: string;
+}
+
+const { title, image, price, link, platform = 'taobao' } = Astro.props;
+---
+
+<a href={link} rel="sponsored nofollow" target="_blank" class="card" style="display:flex;gap:.75rem;padding:.75rem">
+  <img src={image} alt={title} loading="lazy" style="width:80px;height:80px;object-fit:cover;border-radius:6px;flex-shrink:0" />
+  <div style="flex:1;min-width:0">
+    <p style="font-size:.85rem;font-weight:500;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin-bottom:.3rem">{title}</p>
+    <p style="font-size:.9rem;color:#dc2626;font-weight:600;margin-bottom:.25rem">{price}</p>
+    <span class="tag" style="font-size:.7rem">{platform === 'taobao' ? '淘宝' : '京东'}</span>
+  </div>
+</a>

@@ -1,0 +1,11 @@
+---
+interface Props {
+  type?: 'banner' | 'sidebar' | 'inarticle';
+}
+
+const { type = 'banner' } = Astro.props;
+---
+
+<div class={`ad-slot ad-slot--${type}`} aria-label="advertisement">
+  {type === 'banner' ? 'Ad — Banner 728×90' : type === 'sidebar' ? 'Ad — Sidebar 300×250' : 'Ad — In-article'}
+</div>

@@ -1,0 +1,52 @@
+---
+interface Cell {
+  row: number;
+  col: number;
+  rowSpan?: number;
+  colSpan?: number;
+  type: 'wall' | 'door' | 'window' | 'kitchen' | 'living' | 'bedroom' | 'bathroom' | 'balcony' | 'hallway' | 'storage';
+  label?: string;
+}
+
+interface Props {
+  gridCols?: number;
+  gridRows?: number;
+  cells: Cell[];
+  title?: string;
+}
+
+const { gridCols = 20, gridRows = 16, cells, title } = Astro.props;
+
+// Build grid layout with correct placement
+const grid: (Cell | null)[][] = Array.from({ length: gridRows }, () => Array(gridCols).fill(null));
+for (const cell of cells) {
+  for (let r = cell.row; r < cell.row + (cell.rowSpan || 1); r++) {
+    for (let c = cell.col; c < cell.col + (cell.colSpan || 1); c++) {
+      if (r < gridRows && c < gridCols) grid[r][c] = cell;
+    }
+  }
+}
+
+const rendered = new Set<Cell>();
+---
+
+<div class="floorplan-wrapper" style="margin:1.5rem 0">
+  {title && <p style="text-align:center;font-size:.85rem;color:var(--text-light);margin-bottom:.5rem">{title}</p>}
+  <div class="floorplan" style={`grid-template-columns:repeat(${gridCols},1fr);grid-template-rows:repeat(${gridRows},1fr)`}>
+    {grid.flat().map((cell, idx) => {
+      if (!cell) return <div key={idx} style="background:transparent" />;
+      if (rendered.has(cell)) return <div key={idx} style="display:none" />;
+      // Only render first occurrence of each cell (for spanned cells)
+      const isFirst = !rendered.has(cell) &&
+        cell.row === Math.floor(idx / gridCols) &&
+        cell.col === idx % gridCols;
+      if (!isFirst) return <div key={idx} style="display:none" />;
+      rendered.add(cell);
+      return <div
+        key={idx}
+        class={cell.type}
+        style={`grid-row:${cell.row + 1}/span ${cell.rowSpan || 1};grid-column:${cell.col + 1}/span ${cell.colSpan || 1}`}
+      >{cell.label || ''}</div>;
+    })}
+  </div>
+</div>

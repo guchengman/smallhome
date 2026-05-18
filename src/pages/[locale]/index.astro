@@ -1,0 +1,96 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import SEOHead from '../../components/SEOHead.astro';
+import AdSlot from '../../components/AdSlot.astro';
+import { getTranslations } from '../../i18n/index';
+import type { LocaleCode } from '../../i18n/types';
+
+export function getStaticPaths() {
+  return [{ params: { locale: 'zh' } }, { params: { locale: 'en' } }];
+}
+
+const locale = (Astro.params.locale || 'zh') as LocaleCode;
+const t = getTranslations(locale);
+
+// Sample articles for initial display - will be replaced by D1 queries
+const sampleArticles = [
+  { title: locale === 'zh' ? '30㎡住3口人，怎么做到的？' : 'How a Family of 3 Lives Comfortably in 30sqm', desc: locale === 'zh' ? '一个30平米的小家，通过精妙的空间设计实现了两室一厅的居住需求。' : 'Achieving 2 beds and a living room in 30sqm through clever design.', cat: 'area', slug: '30sqm-family-of-3', image: '/og/default.jpg', views: 12580, date: '2026-05-10' },
+  { title: locale === 'zh' ? '装修花了5万 vs 15万，差在哪？' : '5万 vs 15万 Renovation: What\'s the Difference?', desc: locale === 'zh' ? '详解不同预算下的装修品质差异，帮你做出最合理的预算分配。' : 'Detailed comparison of renovation quality at different budgets.', cat: 'budget', slug: '50k-vs-150k', image: '/og/default.jpg', views: 9830, date: '2026-05-08' },
+  { title: locale === 'zh' ? '这10个设计，让50㎡看起来像80㎡' : '10 Design Tricks to Make 50sqm Look Like 80sqm', desc: locale === 'zh' ? '巧妙的视觉效果和空间规划，让小户型也能拥有开阔感。' : 'Clever optical illusions and space planning to make small homes feel spacious.', cat: 'style', slug: '10-design-tricks', image: '/og/default.jpg', views: 15420, date: '2026-05-05' },
+  { title: locale === 'zh' ? '5㎡小厨房的7种布局方案' : '7 Layout Ideas for a 5sqm Kitchen', desc: locale === 'zh' ? '附详细尺寸图的厨房布局指南，每一厘米都精打细算。' : 'Every centimeter counts — detailed dimensioned kitchen layout guide.', cat: 'space', slug: '5sqm-kitchen-layouts', image: '/og/default.jpg', views: 7650, date: '2026-05-03' },
+  { title: locale === 'zh' ? '小户型日式收纳的10个细节' : '10 Japandi Storage Details for Small Homes', desc: locale === 'zh' ? '日式收纳的精髓在于细节，从小物件到大空间的无缝衔接。' : 'Storage mastery through seamless integration of details.', cat: 'style', slug: 'japandi-storage', image: '/og/default.jpg', views: 11200, date: '2026-05-01' },
+  { title: locale === 'zh' ? '2026装修避坑大全：合同篇' : '2026 Renovation Traps: Contract Guide', desc: locale === 'zh' ? '装修合同中的10个常见陷阱，签合同前一定要看清楚这些条款。' : '10 common traps in renovation contracts you must check before signing.', cat: 'tips', slug: 'contract-traps-2026', image: '/og/default.jpg', views: 8900, date: '2026-04-28' },
+];
+
+const heroEntries = [
+  { href: 'area/30-40sqm', label: t.home.areaEntry },
+  { href: 'space/kitchen', label: t.home.spaceEntry },
+  { href: 'budget/under-30k', label: t.home.budgetEntry },
+  { href: 'style/nordic', label: t.home.styleEntry },
+];
+---
+
+<Layout>
+  <SEOHead
+    title={locale === 'zh' ? '小家装修指南' : 'SmallHome Guide'}
+    description={t.home.heroSubtitle}
+  />
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <h1 class="hero__title">{t.home.heroTitle}</h1>
+    <p class="hero__subtitle">{t.home.heroSubtitle}</p>
+    <div class="hero__search">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input
+        type="search"
+        placeholder={t.home.searchPlaceholder}
+        id="hero-search"
+      />
+    </div>
+    <div class="hero__entries">
+      {heroEntries.map(e => (
+        <a href={`/${locale}/${e.href}`} class="hero__entry">{e.label}</a>
+      ))}
+    </div>
+  </section>
+
+  <!-- Ad slot #1 -->
+  <div class="container"><AdSlot type="banner" /></div>
+
+  <!-- Latest articles -->
+  <section class="container" style="margin-top:2rem">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem">
+      <h2>{t.home.latestArticles}</h2>
+      <a href={`/${locale}/articles`} class="btn btn-outline" style="font-size:.85rem">{t.home.viewAll}</a>
+    </div>
+    <div class="article-grid">
+      {sampleArticles.map(article => (
+        <article class="card article-card">
+          <img src={article.image} alt={article.title} loading="lazy" class="article-card__image" width="600" height="375" />
+          <div class="article-card__body">
+            <a href={`/${locale}/articles/${article.slug}`} style="color:inherit">
+              <h3 class="article-card__title">{article.title}</h3>
+            </a>
+            <p class="article-card__desc">{article.desc}</p>
+            <div class="article-card__meta">
+              <span>{article.date}</span>
+              <span>{article.views.toLocaleString()} {t.article.views}</span>
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <!-- Ad slot #3 (in-feed) -->
+  <div class="container"><AdSlot type="inarticle" /></div>
+
+  <script>
+  document.getElementById('hero-search')?.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' && this.value.trim()) {
+      location.href = '/{locale}/search?q=' + encodeURIComponent(this.value.trim());
+    }
+  });
+</script>
+</Layout>

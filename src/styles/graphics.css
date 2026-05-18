@@ -1,0 +1,122 @@
+/* CSS Grid Floor Plan */
+.floorplan {
+  display: grid;
+  grid-template-columns: repeat(20, 1fr);
+  grid-template-rows: repeat(16, 1fr);
+  gap: 1px;
+  aspect-ratio: 5/4;
+  background: #e7e5e4;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+.floorplan > div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: .6rem;
+  font-weight: 600;
+  color: rgba(0,0,0,.4);
+  min-height: 0;
+  transition: transform .15s;
+}
+.floorplan > div:hover { transform: scale(1.05); z-index: 2; }
+.floorplan .wall  { background: #57534e; }
+.floorplan .door  { background: #d4a574; }
+.floorplan .window { background: #a8d8ea; }
+.floorplan .kitchen { background: #ffe0b2; }
+.floorplan .living  { background: #c8e6c9; }
+.floorplan .bedroom { background: #bbdefb; }
+.floorplan .bathroom { background: #e1bee7; }
+.floorplan .balcony { background: #b2dfdb; }
+.floorplan .hallway { background: #f5f5f0; }
+.floorplan .storage { background: #ffe082; }
+
+/* Before/After slider */
+.compare-slider {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-md);
+  user-select: none;
+}
+.compare-slider img { width: 100%; height: auto; display: block; }
+.compare-before {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  overflow: hidden;
+}
+.compare-handle {
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 4px;
+  background: #fff;
+  cursor: ew-resize;
+  border: none;
+  outline: none;
+  transform: translateX(-50%);
+}
+.compare-handle::after {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 44px; height: 44px;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: var(--shadow-md);
+}
+.compare-label {
+  position: absolute;
+  top: 10px;
+  padding: 4px 10px;
+  background: rgba(0,0,0,.6);
+  color: #fff;
+  font-size: .75rem;
+  border-radius: 4px;
+  pointer-events: none;
+}
+.compare-label--before { left: 10px; }
+.compare-label--after  { right: 10px; }
+
+/* Color palette swatches */
+.palette {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+.palette__swatch {
+  width: 48px; height: 48px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  cursor: pointer;
+  position: relative;
+}
+.palette__swatch:hover::after {
+  content: attr(data-hex);
+  position: absolute;
+  bottom: calc(100% + 4px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--text);
+  color: #fff;
+  font-size: .7rem;
+  padding: 2px 6px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+/* Mermaid container */
+.mermaid-container {
+  overflow-x: auto;
+  padding: 1rem 0;
+  text-align: center;
+}
+.mermaid-placeholder {
+  height: 200px;
+  background: var(--bg);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-light);
+}

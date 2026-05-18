@@ -1,0 +1,101 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import SEOHead from '../../../components/SEOHead.astro';
+import AdSlot from '../../../components/AdSlot.astro';
+import { getTranslations } from '../../../i18n/index';
+import type { LocaleCode } from '../../../i18n/types';
+
+export function getStaticPaths() {
+  return [{ params: { locale: 'zh' } }, { params: { locale: 'en' } }];
+}
+
+const locale = (Astro.params.locale || 'zh') as LocaleCode;
+const t = getTranslations(locale);
+const isZh = locale === 'zh';
+
+const M = {
+  roomLength: isZh ? '房间长度（米）' : 'Room Length (m)',
+  roomWidth: isZh ? '房间宽度（米）' : 'Room Width (m)',
+  roomHeight: isZh ? '房间高度（米）' : 'Room Height (m)',
+  matType: isZh ? '材料类型' : 'Material Type',
+  floorArea: isZh ? '地面面积' : 'Floor Area',
+  wallArea: isZh ? '墙面面积' : 'Wall Area',
+  sqm: isZh ? '㎡' : 'sqm',
+  inclWaste: isZh ? '含损耗' : 'incl. waste',
+  tile: isZh ? '瓷砖' : 'Tiles',
+  floor: isZh ? '地板' : 'Flooring',
+  paint: isZh ? '乳胶漆' : 'Paint',
+  wallpaper: isZh ? '墙纸' : 'Wallpaper',
+  unitPcs: isZh ? '片' : 'pcs',
+  unitSqm: isZh ? '㎡' : 'sqm',
+  unitL: isZh ? '升' : 'L',
+  unitRolls: isZh ? '卷' : 'rolls',
+};
+---
+
+<Layout>
+  <SEOHead title={t.tools.materialCalc} description={isZh ? '免费在线装修材料用量计算器' : 'Free material estimation calculator'} />
+
+  <div class="tool-page">
+    <h1>{t.tools.materialCalc}</h1>
+    <p style="color:var(--text-light);margin-bottom:1.5rem">{isZh ? '输入房间尺寸，自动计算材料用量' : 'Enter room dimensions to auto-calculate material quantities'}</p>
+
+    <div class="tool-form">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem">
+        <div class="form-group"><label>{M.roomLength}</label><input type="number" id="room-length" min="0.5" max="50" value="4" step="0.1" /></div>
+        <div class="form-group"><label>{M.roomWidth}</label><input type="number" id="room-width" min="0.5" max="50" value="3" step="0.1" /></div>
+        <div class="form-group"><label>{M.roomHeight}</label><input type="number" id="room-height" min="2" max="5" value="2.6" step="0.1" /></div>
+        <div class="form-group"><label>{M.matType}</label>
+          <select id="material-type">
+            <option value="tile">{M.tile}</option>
+            <option value="floor">{M.floor}</option>
+            <option value="paint">{M.paint}</option>
+            <option value="wallpaper">{M.wallpaper}</option>
+          </select>
+        </div>
+      </div>
+      <button class="btn btn-primary" style="width:100%;margin-top:.5rem" id="calc-btn">{t.tools.calculate}</button>
+    </div>
+
+    <div class="tool-result" id="result" style="display:none">
+      <h2>{t.tools.result}</h2>
+      <div id="material-result-content"></div>
+      <AdSlot type="inarticle" />
+    </div>
+  </div>
+</Layout>
+
+<script type="application/json" id="_m3">{JSON.stringify(M)}</script>
+<script>
+  var M4 = JSON.parse(document.getElementById('_m3')?.textContent || '{}');
+  var materials = [
+    { value: 'tile', label: M4.tile, unit: M4.unitPcs, wasteRate: 0.05, calcPerSqm: 6.25 },
+    { value: 'floor', label: M4.floor, unit: M4.unitSqm, wasteRate: 0.08, calcPerSqm: 1 },
+    { value: 'paint', label: M4.paint, unit: M4.unitL, wasteRate: 0.10, calcPerSqm: 0.15 },
+    { value: 'wallpaper', label: M4.wallpaper, unit: M4.unitRolls, wasteRate: 0.12, calcPerSqm: 0.2 },
+  ];
+
+  document.getElementById('calc-btn')?.addEventListener('click', function() {
+    var length = parseFloat(document.getElementById('room-length').value) || 4;
+    var width = parseFloat(document.getElementById('room-width').value) || 3;
+    var height = parseFloat(document.getElementById('room-height').value) || 2.6;
+    var matType = document.getElementById('material-type').value;
+    var floorArea = length * width;
+    var wallArea = 2 * (length + width) * height;
+    var resultEl = document.getElementById('result');
+    var contentEl = document.getElementById('material-result-content');
+    resultEl.style.display = '';
+
+    var html = '<p style="margin-bottom:.75rem;color:var(--text-light)">' + M4.floorArea + ': <strong>' + floorArea.toFixed(1) + ' ' + M4.sqm + '</strong> &nbsp;|&nbsp; ' + M4.wallArea + ': <strong>' + wallArea.toFixed(1) + ' ' + M4.sqm + '</strong></p>';
+
+    materials.forEach(function(m) {
+      if (m.value !== matType) return;
+      var baseArea = (m.value === 'tile' || m.value === 'floor') ? floorArea : wallArea;
+      var quantity = Math.ceil(baseArea * m.calcPerSqm * (1 + m.wasteRate));
+      html += '<div style="display:flex;justify-content:space-between;align-items:center;padding:.75rem;background:var(--bg);border-radius:6px;margin-bottom:.5rem"><span style="font-weight:500">' + m.label + '</span><span style="font-size:.85rem;color:var(--text-light)">' + M4.inclWaste + ' ' + (m.wasteRate * 100).toFixed(0) + '%</span><span style="font-weight:700;font-size:1.1rem;color:var(--primary)">' + quantity + ' ' + m.unit + '</span></div>';
+    });
+
+    contentEl.innerHTML = html;
+    resultEl.scrollIntoView({ behavior: 'smooth' });
+  });
+</script>

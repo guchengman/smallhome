@@ -1,0 +1,83 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import { getTranslations } from '../../../i18n/index';
+import type { LocaleCode } from '../../../i18n/types';
+
+export const prerender = false;
+
+const locale = (Astro.params.locale || 'zh') as LocaleCode;
+const t = getTranslations(locale);
+const isZh = locale === 'zh';
+
+const M = {
+  pwMismatch: isZh ? '两次密码不一致' : 'Passwords do not match',
+  pwShort: isZh ? '密码至少6位' : 'Password must be at least 6 characters',
+  pwOk: isZh ? '密码修改成功' : 'Password changed',
+};
+
+const sidebarLinks = [
+  { href: 'account/', label: t.account.title, active: true },
+  { href: 'account/submissions', label: t.account.submissions },
+  { href: 'editor/', label: t.nav.submit },
+];
+---
+
+<Layout>
+  <div class="account-layout">
+    <aside class="account-sidebar">
+      {sidebarLinks.map(link => <a href={`/${locale}/${link.href}`} class={link.active ? 'active' : ''}>{link.label}</a>)}
+    </aside>
+
+    <div>
+      <h1>{t.account.title}</h1>
+      <section class="card" style="padding:1.5rem;margin-top:1rem">
+        <h2>{t.account.profile}</h2>
+        <div class="form-group"><label>{t.account.displayName}</label><input type="text" id="display-name" /></div>
+        <div class="form-group"><label>{t.account.bio}</label><textarea id="bio" rows="3"></textarea></div>
+        <button class="btn btn-primary" id="save-profile">{t.account.save}</button>
+      </section>
+
+      <section class="card" style="padding:1.5rem;margin-top:1.5rem">
+        <form id="password-form">
+          <h2>{t.account.changePassword}</h2>
+          <div class="form-group"><label>{t.account.oldPassword}</label><input type="password" id="old-password" /></div>
+          <div class="form-group"><label>{t.auth.newPassword}</label><input type="password" id="new-password" minlength="6" /></div>
+          <div class="form-group"><label>{t.auth.confirmPassword}</label><input type="password" id="new-password2" minlength="6" /></div>
+          <button type="submit" class="btn btn-primary" id="change-password-btn">{t.account.changePassword}</button>
+        </form>
+      </section>
+    </div>
+  </div>
+</Layout>
+
+<script type="application/json" id="_m4">{JSON.stringify(M)}</script>
+<script>
+  var M5 = JSON.parse(document.getElementById('_m4')?.textContent || '{}');
+  (async function() {
+    var token = localStorage.getItem('token');
+    if (!token) { location.href = '/login'; return; }
+    try {
+      var res = await fetch('/api/auth/me', { headers: { Authorization: 'Bearer ' + token } });
+      if (!res.ok) { localStorage.removeItem('token'); location.href = '/login'; return; }
+      var user = await res.json();
+      document.getElementById('display-name').value = user.displayName || '';
+      document.getElementById('bio').value = user.bio || '';
+    } catch(e) { location.href = '/login'; }
+  })();
+
+  document.getElementById('change-password-btn')?.addEventListener('click', async function(e) {
+    e.preventDefault();
+    var token = localStorage.getItem('token');
+    var p1 = document.getElementById('new-password').value;
+    var p2 = document.getElementById('new-password2').value;
+    if (p1 !== p2) return alert(M5.pwMismatch);
+    if (p1.length < 6) return alert(M5.pwShort);
+    var res = await fetch('/api/auth/password', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + token },
+      body: JSON.stringify({ oldPassword: document.getElementById('old-password').value, newPassword: p1 }),
+    });
+    var data = await res.json();
+    alert(res.ok ? M5.pwOk : (data.error || 'Error'));
+  });
+</script>

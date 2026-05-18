@@ -1,0 +1,16 @@
+---
+// Reading progress bar is handled as a fixed element in Layout.astro
+// This component is a placeholder for standalone use
+---
+
+<div class="reading-progress" id="article-progress" style="width:0%" aria-hidden="true"></div>
+
+<script>
+  window.addEventListener('scroll', () => {
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = docHeight > 0 ? Math.min(100, (scrollTop / docHeight) * 100) : 0;
+    const bars = document.querySelectorAll('.reading-progress');
+    bars.forEach(b => { (b as HTMLElement).style.width = progress + '%'; });
+  });
+</script>

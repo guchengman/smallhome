@@ -1,0 +1,87 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import SEOHead from '../../../components/SEOHead.astro';
+import AdSlot from '../../../components/AdSlot.astro';
+import { getTranslations } from '../../../i18n/index';
+import type { LocaleCode } from '../../../i18n/types';
+import { categoryNames, categorySlugs } from '../../../i18n/categories';
+
+export function getStaticPaths() {
+  return [{ params: { locale: 'zh' } }, { params: { locale: 'en' } }];
+}
+
+const locale = (Astro.params.locale || 'zh') as LocaleCode;
+const t = getTranslations(locale);
+const isZh = locale === 'zh';
+
+const allArticles = [
+  { title: isZh ? '30㎡住3口人，怎么做到的？' : 'How a Family of 3 Lives Comfortably in 30sqm', desc: isZh ? '精妙的空间设计实现两室一厅。' : 'Achieving 2 beds and a living room in 30sqm.', cat: 'area', slug: '30sqm-family-of-3', views: 12580, date: '2026-05-10' },
+  { title: isZh ? '5㎡小厨房的7种布局方案' : '7 Layout Ideas for a 5sqm Kitchen', desc: isZh ? '详细尺寸图+布局方案，每一厘米都精打细算。' : 'Detailed dimensioned layouts.', cat: 'space', slug: '5sqm-kitchen-layouts', views: 7650, date: '2026-05-08' },
+  { title: isZh ? '装修花了5万 vs 15万，差在哪？' : '5万 vs 15万 Renovation: What\'s the Difference?', desc: isZh ? '详解不同预算下的装修品质差异。' : 'Comparing quality at different budgets.', cat: 'budget', slug: '50k-vs-150k', views: 9830, date: '2026-05-08' },
+  { title: isZh ? '这10个设计，让50㎡看起来像80㎡' : '10 Design Tricks to Make 50sqm Look Like 80sqm', desc: isZh ? '巧妙的视觉效果让小户型拥有开阔感。' : 'Optical illusions for spacious feel.', cat: 'style', slug: '10-design-tricks', views: 15420, date: '2026-05-05' },
+  { title: isZh ? '小户型日式收纳的10个细节' : '10 Japandi Storage Details for Small Homes', desc: isZh ? '日式收纳的精髓在于细节。' : 'Storage mastery through details.', cat: 'style', slug: 'japandi-storage', views: 11200, date: '2026-05-01' },
+  { title: isZh ? '2026装修避坑大全：合同篇' : '2026 Renovation Traps: Contract Guide', desc: isZh ? '装修合同中的10个常见陷阱。' : '10 traps in contracts.', cat: 'tips', slug: 'contract-traps-2026', views: 8900, date: '2026-04-28' },
+  { title: isZh ? '奶油风客厅设计集锦' : 'Cream-Style Living Room Collection', desc: isZh ? '奶油风设计案例灵感集。' : 'Cream-style design inspirations.', cat: 'gallery', slug: 'cream-living-gallery', views: 14200, date: '2026-05-09' },
+  { title: isZh ? '水电改造最容易忽略的7个问题' : '7 Electrical & Plumbing Issues', desc: isZh ? '隐蔽工程注意事项。' : 'Hidden work issues.', cat: 'tips', slug: 'electrical-pitfalls', views: 12300, date: '2026-05-10' },
+  { title: isZh ? '阳台改造案例精选' : 'Balcony Makeover Gallery', desc: isZh ? '小阳台的N种可能。' : 'N possibilities for balconies.', cat: 'gallery', slug: 'balcony-makeovers', views: 9600, date: '2026-05-01' },
+];
+
+const page = parseInt(Astro.url.searchParams.get('page') || '1');
+const perPage = 6;
+const totalPages = Math.ceil(allArticles.length / perPage);
+const pagedArticles = allArticles.slice((page - 1) * perPage, page * perPage);
+---
+
+<Layout>
+  <SEOHead
+    title={isZh ? '全部文章' : 'All Articles'}
+    description={isZh ? '小户型装修设计文章大全' : 'All small home design articles'}
+  />
+
+  <div class="container" style="margin-top:2rem">
+    <h1>{isZh ? '全部文章' : 'All Articles'}</h1>
+    <p style="color:var(--text-light);margin-bottom:1.5rem">
+      {isZh ? `共 ${allArticles.length} 篇文章` : `${allArticles.length} articles total`}
+    </p>
+
+    <!-- Category filter nav -->
+    <nav style="display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1.5rem">
+      <a href={`/${locale}/articles`} class="btn btn-primary" style="font-size:.85rem">{t.common.all}</a>
+      {categorySlugs.map(cat => (
+        <a href={`/${locale}/${cat}`} class="btn btn-outline" style="font-size:.85rem">
+          {categoryNames[cat]?.[locale] || cat}
+        </a>
+      ))}
+    </nav>
+
+    <AdSlot type="banner" />
+
+    <div class="article-grid" style="margin-top:1.5rem">
+      {pagedArticles.map(a => (
+        <article class="card article-card">
+          <img src="/og/default.jpg" alt={a.title} loading="lazy" class="article-card__image" width="600" height="375" />
+          <div class="article-card__body">
+            <a href={`/${locale}/articles/${a.slug}`} style="color:inherit">
+              <h3 class="article-card__title">{a.title}</h3>
+            </a>
+            <p class="article-card__desc">{a.desc}</p>
+            <div class="article-card__meta">
+              <span class="tag">{t.categories[a.cat] || a.cat}</span>
+              <span>{a.date}</span>
+              <span>{a.views.toLocaleString()} {t.article.views}</span>
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+
+    <!-- Pagination -->
+    {totalPages > 1 && (
+      <div class="pagination">
+        {Array.from({ length: totalPages }, (_, i) => i + 1).map(p => (
+          <a href={`/${locale}/articles?page=${p}`} class={p === page ? 'active' : ''}>{p}</a>
+        ))}
+      </div>
+    )}
+  </div>
+</Layout>

@@ -1,0 +1,71 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import SEOHead from '../../../components/SEOHead.astro';
+import AdSlot from '../../../components/AdSlot.astro';
+import { getTranslations } from '../../../i18n/index';
+import { spaces, spaceNames } from '../../../i18n/categories';
+import type { LocaleCode } from '../../../i18n/types';
+
+export function getStaticPaths() {
+  return spaces.flatMap(room => [
+    { params: { locale: 'zh', room } },
+    { params: { locale: 'en', room } },
+  ]);
+}
+
+const { locale, room } = Astro.params;
+const t = getTranslations(locale as LocaleCode);
+const name = spaceNames[room]?.[locale as LocaleCode] || room;
+
+const sampleArticles = [
+  { title: locale === 'zh' ? `小${name}设计的7个黄金法则` : `7 Golden Rules for Small ${name} Design`, desc: locale === 'zh' ? `详解${name}空间的布局原则与尺寸标准。` : `Layout principles and dimension standards for ${name}.`, slug: `${room}-golden-rules`, views: 9200, date: '2026-05-08' },
+  { title: locale === 'zh' ? `${name}收纳翻倍的秘密` : `Double Your ${name} Storage`, desc: locale === 'zh' ? `${name}每一处空间都不浪费的收纳方案。` : `Storage solutions that maximize every inch of your ${name.toLowerCase()}.`, slug: `${room}-storage-hacks`, views: 10500, date: '2026-05-02' },
+  { title: locale === 'zh' ? `${name}装修材料怎么选？` : `How to Choose Materials for ${name}`, desc: locale === 'zh' ? `从瓷砖到灯具，${name}装修材料选购完全指南。` : `Complete guide to choosing materials for ${name.toLowerCase()} renovation.`, slug: `${room}-materials`, views: 7400, date: '2026-04-25' },
+];
+---
+
+<Layout>
+  <SEOHead
+    title={locale === 'zh' ? `${name}设计装修指南` : `${name} Design Guide`}
+    description={locale === 'zh' ? `小户型${name}装修设计灵感、收纳方案和材料选购指南。` : `Small ${name.toLowerCase()} design ideas, storage solutions, and material selection guide.`}
+  />
+
+  <div class="container" style="margin-top:2rem">
+    <nav style="display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1.5rem">
+      {spaces.map(s => (
+        <a
+          href={`/${locale}/space/${s}`}
+          class={`btn ${s === room ? 'btn-primary' : 'btn-outline'}`}
+          style="font-size:.85rem"
+        >
+          {spaceNames[s]?.[locale as LocaleCode] || s}
+        </a>
+      ))}
+    </nav>
+
+    <h1>{locale === 'zh' ? `${name}装修设计指南` : `${name} Design Guide`}</h1>
+    <p style="color:var(--text-light);margin-bottom:1.5rem">
+      {locale === 'zh' ? `共 ${sampleArticles.length} 篇文章 · 持续更新中` : `${sampleArticles.length} articles · Updated regularly`}
+    </p>
+
+    <AdSlot type="banner" />
+
+    <div class="article-grid" style="margin-top:1.5rem">
+      {sampleArticles.map(a => (
+        <article class="card article-card">
+          <img src="/og/default.jpg" alt={a.title} loading="lazy" class="article-card__image" width="600" height="375" />
+          <div class="article-card__body">
+            <a href={`/${locale}/articles/${a.slug}`} style="color:inherit">
+              <h3 class="article-card__title">{a.title}</h3>
+            </a>
+            <p class="article-card__desc">{a.desc}</p>
+            <div class="article-card__meta">
+              <span>{a.date}</span>
+              <span>{a.views.toLocaleString()} {t.article.views}</span>
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</Layout>

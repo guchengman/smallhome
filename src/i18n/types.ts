@@ -1,0 +1,140 @@
+export type LocaleCode = 'zh' | 'en';
+
+export interface Translations {
+  nav: {
+    home: string;
+    area: string;
+    space: string;
+    style: string;
+    budget: string;
+    tools: string;
+    tips: string;
+    gallery: string;
+    search: string;
+    login: string;
+    register: string;
+    logout: string;
+    account: string;
+    submit: string;
+    admin: string;
+    language: string;
+  };
+  home: {
+    heroTitle: string;
+    heroSubtitle: string;
+    searchPlaceholder: string;
+    areaEntry: string;
+    spaceEntry: string;
+    budgetEntry: string;
+    styleEntry: string;
+    toolsEntry: string;
+    latestArticles: string;
+    popularArticles: string;
+    viewAll: string;
+  };
+  article: {
+    publishedAt: string;
+    updatedAt: string;
+    author: string;
+    category: string;
+    tags: string;
+    readingTime: string;
+    views: string;
+    toc: string;
+    relatedArticles: string;
+    shareTitle: string;
+    prevArticle: string;
+    nextArticle: string;
+    favorite: string;
+    unfavorite: string;
+    registerCta: string;
+  };
+  auth: {
+    loginTitle: string;
+    registerTitle: string;
+    username: string;
+    email: string;
+    password: string;
+    confirmPassword: string;
+    loginBtn: string;
+    registerBtn: string;
+    sendCode: string;
+    verifyCode: string;
+    codeSent: string;
+    forgotPassword: string;
+    resetPassword: string;
+    newPassword: string;
+    noAccount: string;
+    hasAccount: string;
+    logoutConfirm: string;
+  };
+  account: {
+    title: string;
+    submissions: string;
+    favorites: string;
+    profile: string;
+    changePassword: string;
+    oldPassword: string;
+    save: string;
+    bio: string;
+    displayName: string;
+  };
+  editor: {
+    title: string;
+    saveDraft: string;
+    submitReview: string;
+    import: string;
+    titleLabel: string;
+    descLabel: string;
+    categoryLabel: string;
+    tagsLabel: string;
+    coverLabel: string;
+    localeLabel: string;
+    contentLabel: string;
+  };
+  admin: {
+    title: string;
+    reviewQueue: string;
+    preview: string;
+    approve: string;
+    reject: string;
+    rejectReason: string;
+    noPending: string;
+  };
+  tools: {
+    budgetCalc: string;
+    materialCalc: string;
+    inputArea: string;
+    selectLevel: string;
+    selectCity: string;
+    calculate: string;
+    result: string;
+    basic: string;
+    standard: string;
+    premium: string;
+    share: string;
+  };
+  common: {
+    loading: string;
+    error: string;
+    success: string;
+    confirm: string;
+    cancel: string;
+    save: string;
+    delete: string;
+    edit: string;
+    back: string;
+    more: string;
+    all: string;
+    noResults: string;
+    pageNotFound: string;
+    goHome: string;
+  };
+  categories: Record<string, string>;
+  footer: {
+    about: string;
+    categories: string;
+    links: string;
+    copyright: string;
+  };
+}
