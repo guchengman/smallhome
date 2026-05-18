@@ -193,3 +193,20 @@ This project uses [skill-creator](https://github.com/anthropics/skills/tree/main
 
 **Workflow**: capture intent → draft SKILL.md → create test cases → parallel A/B testing (with/without skill) → evaluate → iterate → package.
 <!-- /skill-creator -->
+
+<!-- autocli -->
+# AutoCLI - Web Platform Access
+
+This project uses [autocli-skill](https://github.com/nashsu/AutoCLI-skill) to access 55+ web platforms via Chrome login session.
+
+| Skill | File | Use Case |
+|-------|------|----------|
+| autocli | `.agents/skills/autocli/SKILL.md` | Browse, search, post on social/content platforms |
+
+**Prerequisites**:
+- Chrome browser open with target sites logged in
+- AutoCLI Chrome extension installed
+- CLI binary installed at `$LOCALAPPDATA\Microsoft\WindowsApps\autocli.exe`
+
+Triggers on requests like: "搜索B站热门", "查Twitter趋势", "读Reddit帖子", "看知乎热榜"
+<!-- /autocli -->
